@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NewVideoGenerator – Free AI Video Studio</title>
-<meta name="description" content="NewVideoGenerator: Free AI Text to Video और Image to Video — LTX-Video, Wan 2.2, Wan 2.1 और Pollinations AI के साथ। 9:16 और 16:9, MP4 डाउनलोड।">
+<title>FreeVideoGenerator – Free AI Video Studio</title>
+<meta name="description" content="FreeVideoGenerator: Free AI Text to Video और Image to Video — LTX-Video, Wan 2.2, Wan 2.1 और Pollinations AI के साथ। 9:16 और 16:9, MP4 डाउनलोड।">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -110,7 +110,7 @@ canvas#work{display:none}
 </head>
 <body>
 <div class="top">
-  <div class="brand"><div class="mark"></div>NewVideoGenerator</div>
+  <div class="brand"><div class="mark"></div>FreeVideoGenerator</div>
   <div class="sp"></div>
   <span class="pill free">100% Free</span>
   <span class="pill">LTX • Wan 2.2 • Wan 2.1 • Pollinations</span>
@@ -476,7 +476,7 @@ async function download(it){
   try{
     const blob = it.blob || await urlToBlob(it.url);
     const ext = blob.ext || (blob.type.includes("webm")?"webm":"mp4");
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `newvideogenerator_${Date.now()}.${ext}`; document.body.appendChild(a); a.click(); a.remove();
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `freevideogenerator_${Date.now()}.${ext}`; document.body.appendChild(a); a.click(); a.remove();
   }catch{ window.open(it.url, "_blank"); }
 }
 
