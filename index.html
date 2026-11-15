@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FreeVideoGenerator – Free AI Video Studio</title>
-<meta name="description" content="FreeVideoGenerator: Free AI Text to Video और Image to Video — LTX-Video, Wan 2.2, Wan 2.1 और Pollinations AI के साथ। 9:16 और 16:9, MP4 डाउनलोड।">
+<meta name="description" content="FreeVideoGenerator: Nano Banana से AI इमेज, और Text to Video, Ingredients to Video, Frames to Video — Veo, Wan 2.2, LTX-Video और Pollinations के साथ। 9:16 और 16:9, MP4 डाउनलोड।">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://js.puter.com/v2/"></script>
 <style>
 :root{
   --bg:#0a0a0b;--surface:#141416;--surface2:#1c1c1f;--surface3:#26262a;--line:#2c2c31;
-  --text:#ececf1;--muted:#8e8e98;--accent:#a8c7fa;--accent-strong:#4f8cff;--ok:#6ee7a8;--err:#ff8a80;--warn:#fbbf24;
+  --text:#ececf1;--muted:#8e8e98;--accent:#a8c7fa;--accent-strong:#4f8cff;--ok:#6ee7a8;--err:#ff8a80;--warn:#fbbf24;--banana:#fde047;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
@@ -26,27 +27,31 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 .iconbtn{background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer;font-size:13px}
 .iconbtn:hover{background:var(--surface3)}
 
-.wrap{max-width:1280px;margin:auto;padding:24px 22px 260px}
-.empty{text-align:center;padding:70px 10px 30px}
+.wrap{max-width:1280px;margin:auto;padding:24px 22px 300px}
+.empty{text-align:center;padding:60px 10px 30px}
 .empty h1{font-weight:500;font-size:clamp(30px,5vw,52px);margin:0 0 10px;letter-spacing:-.5px}
 .empty h1 span{background:linear-gradient(90deg,#a8c7fa,#c4b5fd,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent}
-.empty p{color:var(--muted);margin:0 auto;max-width:640px;line-height:1.6}
+.empty p{color:var(--muted);margin:0 auto;max-width:680px;line-height:1.6}
 .ideas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
 .idea{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:14px;color:#cfcfd6;cursor:pointer;max-width:300px;text-align:left}
 .idea:hover{border-color:#3d3d45;background:var(--surface2)}
-.models{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:40px auto 0;max-width:980px}
-.models div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;font-size:13px;color:var(--muted);text-align:left}
+.models{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:40px auto 0;max-width:1000px}
+.models div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;font-size:13px;color:var(--muted);text-align:left;line-height:1.5}
 .models b{display:block;color:var(--text);font-weight:500;font-size:15px;margin-bottom:4px}
 
-.secthead{display:flex;align-items:center;gap:10px;margin:6px 0 16px}
+.secthead{display:flex;align-items:center;gap:10px;margin:6px 0 16px;flex-wrap:wrap}
 .secthead h2{font-weight:500;font-size:20px;margin:0}
 .secthead .sp{flex:1}
+.filt{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:3px}
+.filt button{background:transparent;border:0;border-radius:99px;padding:6px 12px;font-size:12px;color:var(--muted);cursor:pointer}
+.filt button.on{background:var(--surface3);color:var(--text)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;position:relative;display:flex;flex-direction:column}
 .card.sel{outline:2px solid var(--accent-strong);outline-offset:-2px}
 .media{background:#000;display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;position:relative}
 .card.v .media{aspect-ratio:9/16;max-height:520px}
-.media video{width:100%;height:100%;object-fit:contain;display:block}
+.card.sq .media{aspect-ratio:1/1}
+.media video,.media img{width:100%;height:100%;object-fit:contain;display:block}
 .media .load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);font-size:13px;padding:16px;text-align:center;
   background:linear-gradient(110deg,#151518 30%,#202026 50%,#151518 70%);background-size:200% 100%;animation:sh 1.6s linear infinite}
 @keyframes sh{to{background-position:-200% 0}}
@@ -57,22 +62,30 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
 .tag{font-size:11px;padding:3px 8px;border-radius:99px;background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
 .tag.m{color:var(--accent)}
+.tag.b{color:var(--banana)}
 .tag.e{color:var(--err)}
-.acts{display:flex;gap:6px}
-.acts button{flex:1;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:8px;font-size:12px;cursor:pointer}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.acts button{flex:1 1 auto;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:8px;font-size:12px;cursor:pointer;white-space:nowrap}
 .acts button:hover{background:var(--surface3)}
 .selbox{position:absolute;top:10px;left:10px;z-index:3;width:26px;height:26px;border-radius:8px;background:rgba(0,0,0,.55);border:1px solid #555;cursor:pointer;display:grid;place-items:center;font-size:14px}
 .card.sel .selbox{background:var(--accent-strong);border-color:var(--accent-strong)}
 
 /* composer */
-.composer{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);width:min(920px,calc(100% - 24px));z-index:30;
-  background:rgba(28,28,31,.92);backdrop-filter:blur(16px);border:1px solid #34343a;border-radius:26px;padding:12px 12px 10px;box-shadow:0 20px 60px -20px #000}
-.modes{display:flex;gap:6px;margin:0 4px 8px}
-.mode{background:transparent;border:0;border-radius:99px;padding:7px 13px;font-size:13px;color:var(--muted);cursor:pointer}
+.composer{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);width:min(940px,calc(100% - 24px));z-index:30;
+  background:rgba(28,28,31,.94);backdrop-filter:blur(16px);border:1px solid #34343a;border-radius:26px;padding:12px 12px 10px;box-shadow:0 20px 60px -20px #000}
+.modes{display:flex;gap:4px;margin:0 4px 8px;overflow-x:auto;scrollbar-width:none}
+.modes::-webkit-scrollbar{display:none}
+.mode{background:transparent;border:0;border-radius:99px;padding:7px 13px;font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap;flex:none}
 .mode.on{background:var(--surface3);color:var(--text)}
-.frames{display:flex;gap:8px;flex-wrap:wrap;margin:0 4px 8px}
-.frame{width:58px;height:58px;border-radius:12px;object-fit:cover;border:1px solid var(--line);cursor:pointer}
-.addframe{width:58px;height:58px;border-radius:12px;border:1.5px dashed #46464e;background:transparent;color:var(--muted);font-size:22px;cursor:pointer}
+.mode[data-m=image].on{background:#3a3412;color:var(--banana)}
+.refs{display:flex;gap:8px;flex-wrap:wrap;margin:0 4px 8px;align-items:center}
+.slot{position:relative;width:62px;height:62px;border-radius:12px;border:1.5px dashed #46464e;background:transparent;color:var(--muted);font-size:20px;cursor:pointer;display:grid;place-items:center;overflow:hidden;flex:none;padding:0}
+.slot img{width:100%;height:100%;object-fit:cover}
+.slot.filled{border:1px solid var(--line)}
+.slot .x{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.75);font-size:11px;display:grid;place-items:center;color:#fff}
+.slot .lbl{position:absolute;bottom:0;left:0;right:0;font-size:9.5px;background:rgba(0,0,0,.65);color:#ddd;padding:2px 0;text-align:center}
+.refnote{font-size:11.5px;color:#7d7d87;max-width:420px;line-height:1.4}
+.arrow{color:#6f6f78;font-size:18px}
 .inrow{display:flex;gap:10px;align-items:flex-end}
 .inrow textarea{flex:1;background:transparent;border:0;outline:0;resize:none;font-size:16px;line-height:1.45;padding:8px 8px;min-height:44px;max-height:180px}
 .inrow textarea::placeholder{color:#6f6f78}
@@ -80,32 +93,59 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 .go:disabled{opacity:.35;cursor:not-allowed}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;padding:0 2px}
 .chip{position:relative;display:flex;align-items:center;background:var(--surface2);border:1px solid var(--line);border-radius:99px;padding:0 4px 0 10px;font-size:12px;color:#c9c9d1}
-.chip select{background:transparent;border:0;outline:0;padding:7px 4px;font-size:12px;cursor:pointer;color:#e6e6ec}
+.chip select{background:transparent;border:0;outline:0;padding:7px 4px;font-size:12px;cursor:pointer;color:#e6e6ec;max-width:190px}
 .chip select option{background:#1c1c1f}
+.chip.hide{display:none}
 .hint{font-size:11.5px;color:#6f6f78;margin:6px 8px 0}
 
 /* join bar */
-.joinbar{position:fixed;left:50%;transform:translateX(-50%);bottom:206px;z-index:29;width:min(920px,calc(100% - 24px));background:#13213a;border:1px solid #27406b;border-radius:18px;padding:10px 12px;display:none;gap:10px;align-items:center;flex-wrap:wrap}
+.joinbar{position:fixed;left:50%;transform:translateX(-50%);bottom:250px;z-index:29;width:min(940px,calc(100% - 24px));background:#13213a;border:1px solid #27406b;border-radius:18px;padding:10px 12px;display:none;gap:10px;align-items:center;flex-wrap:wrap}
 .joinbar.show{display:flex}
 .joinbar input[type=text]{flex:1;min-width:160px;background:#0d1729;border:1px solid #27406b;border-radius:10px;padding:9px 10px;font-size:13px}
 .joinbar label{font-size:12px;color:#a8c7fa;cursor:pointer;padding:8px 10px;border:1px solid #27406b;border-radius:10px}
 .joinbar button{background:var(--accent);color:#0b1b33;border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer}
-.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--surface3);border:1px solid var(--line);padding:10px 16px;border-radius:12px;font-size:14px;z-index:50;display:none;max-width:90vw}
+.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--surface3);border:1px solid var(--line);padding:10px 16px;border-radius:12px;font-size:14px;z-index:70;display:none;max-width:90vw}
 .toast.show{display:block}
 
 /* drawer */
 .drawer{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
 .drawer.show{display:flex}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;width:min(560px,100%);max-height:90vh;overflow:auto}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;width:min(580px,100%);max-height:90vh;overflow:auto}
 .panel h3{margin:0 0 8px;font-weight:500}
+.panel h4{margin:18px 0 4px;font-weight:500;font-size:15px}
 .panel p,.panel li{color:var(--muted);font-size:14px;line-height:1.6}
 .panel input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
-.panel .row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.panel .row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px;flex-wrap:wrap}
 .panel button{background:var(--surface3);border:1px solid var(--line);border-radius:10px;padding:9px 14px;cursor:pointer}
 .panel button.pri{background:var(--accent);color:#0b1b33;border:0;font-weight:600}
 .panel a{color:var(--accent)}
+.status{font-size:13px;padding:8px 12px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);margin:8px 0}
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:65;display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.viewer.show{display:flex}
+.viewer img{max-width:100%;max-height:100%;border-radius:12px}
 canvas#work{display:none}
-@media(max-width:600px){.wrap{padding:16px 12px 300px}.joinbar{bottom:250px}.top{padding:12px}.pill:not(.free){display:none}}
+/* auth */
+.userbtn{display:flex;align-items:center;gap:8px}
+.avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#4f8cff,#a78bfa);display:grid;place-items:center;font-size:13px;font-weight:600;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.auth h3{font-size:22px;margin-bottom:4px}
+.tabs2{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;margin:14px 0}
+.tabs2 button{flex:1;background:transparent;border:0;border-radius:9px;padding:9px;cursor:pointer;color:var(--muted)}
+.tabs2 button.on{background:var(--surface3);color:var(--text)}
+.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff!important;color:#1f1f1f!important;border:0!important;border-radius:12px!important;padding:12px!important;font-weight:600;font-size:15px}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:14px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.auth label{font-size:13px;color:var(--muted)}
+.auth .full{width:100%;margin-top:10px;padding:12px!important}
+.auth .err{color:var(--err);font-size:13px;min-height:18px;margin-top:6px}
+.auth .link{background:none!important;border:0!important;color:var(--accent);padding:4px 0!important;font-size:13px;cursor:pointer}
+.auth .agree{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--muted);margin-top:8px}
+.auth .agree input{width:auto;margin:3px 0 0}
+/* footer */
+.foot{margin-top:60px;padding:22px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:13px;color:var(--muted)}
+.foot a{color:var(--muted);text-decoration:none}.foot a:hover{color:var(--text)}
+@media(max-width:600px){.wrap{padding:16px 12px 380px}.joinbar{bottom:330px}.top{padding:10px 12px;gap:8px}.brand{font-size:16px;gap:8px}.brand .mark{width:26px;height:26px}
+  .pill{display:none}.iconbtn{padding:7px 10px}.iconbtn .t{display:none}.slot{width:54px;height:54px}.chip select{font-size:11.5px;padding:6px 2px;max-width:150px}.chip{padding-left:8px}}
 </style>
 </head>
 <body>
@@ -113,29 +153,37 @@ canvas#work{display:none}
   <div class="brand"><div class="mark"></div>FreeVideoGenerator</div>
   <div class="sp"></div>
   <span class="pill free">100% Free</span>
-  <span class="pill">LTX • Wan 2.2 • Wan 2.1 • Pollinations</span>
-  <button class="iconbtn" id="setBtn">⚙️ Settings</button>
+  <span class="pill">🍌 Nano Banana • Veo • Wan • LTX</span>
+  <button class="iconbtn" id="setBtn">⚙️<span class="t"> Settings</span></button>
+  <button class="iconbtn userbtn" id="userBtn" style="display:none">👤 Login</button>
 </div>
 
 <div class="wrap">
   <section class="empty" id="empty">
     <h1>अपनी कल्पना को <span>वीडियो</span> में बदलें</h1>
-    <p>नीचे प्रॉम्प्ट लिखिए या फोटो जोड़िए। Free AI मॉडल आपके लिए वीडियो बनाएंगे। हर नई लाइन = एक नया सीन, और सारे सीन जोड़कर 10 सेकंड का वीडियो बन जाएगा।</p>
+    <p>फ्री AI से <b>इमेज और कैरेक्टर</b> बनाइए (या 🍌 <b>Nano Banana</b> से), फिर उन्हीं इमेज को <b>Ingredients</b> या <b>Frames</b> बनाकर वीडियो बनाइए — बिल्कुल Google Flow की तरह। हर नई लाइन = एक नया सीन, वीडियो में 🔊 आवाज़ और साउंड भी आएगी, और सारे सीन जोड़कर पूरा वीडियो बन जाएगा।</p>
     <div class="ideas" id="ideas"></div>
     <div class="models">
-      <div><b>LTX-Video</b>Text → Video, सबसे तेज़ (≈5–20 सेकंड)</div>
-      <div><b>Wan 2.2 Fast</b>Image → Video, बेहतरीन मोशन क्वालिटी</div>
-      <div><b>Wan 2.1 Fast</b>Image → Video, बैकअप मॉडल</div>
-      <div><b>Pollinations + Motion</b>AI इमेज + सिनेमैटिक कैमरा, हमेशा काम करता है</div>
+      <div><b>🎨 Image / Character</b>फ्री Z-Image, FLUX, Qwen से प्रॉम्प्ट से इमेज और कैरेक्टर। 🍌 Nano Banana से रेफरेंस फोटो + एडिट।</div>
+      <div><b>✍️ Text → Video 🔊</b>प्रॉम्प्ट से वीडियो — AI साउंड इफ़ेक्ट और हिंदी आवाज़ के साथ। "कोट" में लिखा डायलॉग बोला जाएगा।</div>
+      <div><b>🧩 Ingredients → Video</b>प्रॉम्प्ट + 3 तक रेफरेंस (कैरेक्टर, जगह, चीज़) → वही चीज़ें वीडियो में।</div>
+      <div><b>🎞️ Frames → Video</b>पहला फ्रेम (और चाहें तो आखिरी फ्रेम) दें → बीच का मोशन AI बनाएगा।</div>
     </div>
   </section>
 
   <section id="gallerySec" style="display:none">
-    <div class="secthead"><h2>आपके वीडियो</h2><div class="sp"></div>
-      <button class="iconbtn" id="selAll">सब चुनें</button>
+    <div class="secthead"><h2>आपका प्रोजेक्ट</h2>
+      <div class="filt" id="filt"><button class="on" data-f="all">सब</button><button data-f="video">वीडियो</button><button data-f="image">इमेज</button></div>
+      <div class="sp"></div>
+      <button class="iconbtn" id="selAll">सब वीडियो चुनें</button>
     </div>
     <div class="grid" id="grid"></div>
   </section>
+
+  <footer class="foot">
+    <a href="about.html">About Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="contact.html">Contact Us</a>
+    <span>© 2026 FreeVideoGenerator</span>
+  </footer>
 </div>
 
 <div class="joinbar" id="joinbar">
@@ -147,45 +195,83 @@ canvas#work{display:none}
 
 <div class="composer">
   <div class="modes">
+    <button class="mode" data-m="image">🎨 Image</button>
     <button class="mode on" data-m="text">✍️ Text to Video</button>
-    <button class="mode" data-m="image">🖼️ Image to Video</button>
+    <button class="mode" data-m="ingr">🧩 Ingredients to Video</button>
+    <button class="mode" data-m="frames">🎞️ Frames to Video</button>
   </div>
-  <div class="frames" id="frames" style="display:none">
-    <button class="addframe" id="addFrame" title="फोटो जोड़ें">+</button>
-    <input type="file" id="fileIn" accept="image/*" multiple hidden>
-  </div>
+  <div class="refs" id="refs" style="display:none"></div>
+  <input type="file" id="fileIn" accept="image/*" multiple hidden>
   <div class="inrow">
     <textarea id="prompt" rows="1" placeholder="एक वीडियो का वर्णन करें… (हर लाइन एक सीन)"></textarea>
     <button class="go" id="goBtn" title="Generate">➤</button>
   </div>
   <div class="chips">
     <div class="chip">🤖<select id="model"></select></div>
-    <div class="chip">📐<select id="ratio"><option value="9:16">9:16 Reels</option><option value="16:9">16:9 YouTube</option></select></div>
-    <div class="chip">⏱️<select id="dur"><option value="2">2s / सीन</option><option value="3" selected>3s / सीन</option><option value="4">4s / सीन</option><option value="5">5s / सीन</option></select></div>
+    <div class="chip">📐<select id="ratio"><option value="9:16">9:16 Reels</option><option value="16:9">16:9 YouTube</option><option value="1:1">1:1 Square</option></select></div>
+    <div class="chip" id="durChip">⏱️<select id="dur"><option value="2">2s / सीन</option><option value="3" selected>3s / सीन</option><option value="4">4s / सीन</option><option value="5">5s / सीन</option><option value="8">8s / सीन</option></select></div>
+    <div class="chip" id="countChip">🔢<select id="count"><option value="1">1 इमेज</option><option value="2">2 इमेज</option><option value="4">4 इमेज</option></select></div>
     <div class="chip">🎨<select id="style">
       <option value="cinematic, realistic, high detail, dramatic lighting">Cinematic</option>
       <option value="3d animation, pixar style, vibrant colors">3D Cartoon</option>
       <option value="anime style, vibrant, detailed">Anime</option>
+      <option value="character design, full body, front view, standing pose, clean plain white background, consistent character reference sheet, highly detailed face and outfit">👤 Character</option>
+      <option value="professional portrait photo, 85mm lens, soft studio light, sharp focus">📷 Portrait</option>
+      <option value="youtube thumbnail, bold dramatic composition, vivid colors, high contrast, expressive face">🖼️ Thumbnail</option>
       <option value="">No style</option></select></div>
-    <div class="chip">🔗<select id="autojoin"><option value="1">सीन अपने-आप जोड़ें</option><option value="0">अलग-अलग क्लिप</option></select></div>
+    <div class="chip" id="soundChip">🔊<select id="sound"><option value="auto">आवाज़ + साउंड इफ़ेक्ट</option><option value="voice">सिर्फ आवाज़ (डायलॉग)</option><option value="sfx">सिर्फ साउंड इफ़ेक्ट</option><option value="none">बिना आवाज़</option></select></div>
+    <div class="chip" id="voiceChip">🗣️<select id="voice"><option value="f">महिला आवाज़</option><option value="m">पुरुष आवाज़</option><option value="m2">पुरुष आवाज़ 2</option></select></div>
+    <div class="chip" id="joinChip">🔗<select id="autojoin"><option value="1">सीन अपने-आप जोड़ें</option><option value="0">अलग-अलग क्लिप</option></select></div>
   </div>
   <div class="hint" id="hint">Enter = Generate • Shift+Enter = नई लाइन (नया सीन)</div>
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="viewer" id="viewer"><img alt=""></div>
 
 <div class="drawer" id="drawer">
   <div class="panel">
     <h3>⚙️ Settings</h3>
-    <p>सभी मॉडल Hugging Face के <b>free ZeroGPU</b> पर चलते हैं। बिना लॉगिन के रोज़ थोड़ा GPU समय मिलता है। ज़्यादा वीडियो बनाने हैं तो अपना <b>free</b> Hugging Face टोकन डालें (कोई पैसा नहीं लगता):</p>
+
+    <h4>🍌 Nano Banana और Veo (Puter अकाउंट)</h4>
+    <p>Nano Banana इमेज और Veo वीडियो <b>Puter</b> के ज़रिए चलते हैं — कोई API key नहीं चाहिए। बस एक बार free Puter अकाउंट से लॉगिन करें। हर अकाउंट को free क्रेडिट मिलते हैं; क्रेडिट खत्म होने पर इमेज के लिए वेबसाइट अपने-आप free Pollinations पर चली जाएगी।</p>
+    <div class="status" id="puterStatus">जाँच रहे हैं…</div>
+    <div class="row"><button id="puterOut">Logout</button><button class="pri" id="puterIn">Puter से Login करें</button></div>
+
+    <h4>🤗 Hugging Face (वैकल्पिक)</h4>
+    <p>LTX, Wan 2.2 और Wan 2.1 Hugging Face के <b>free ZeroGPU</b> पर चलते हैं। बिना टोकन के भी रोज़ थोड़ा GPU समय मिलता है। ज़्यादा वीडियो बनाने हैं तो free टोकन डालें:</p>
     <ol>
       <li><a href="https://huggingface.co/join" target="_blank" rel="noopener">huggingface.co</a> पर फ्री अकाउंट बनाएं</li>
       <li>Settings → Access Tokens → New token (Read) बनाएं</li>
       <li>टोकन नीचे पेस्ट करें — यह सिर्फ आपके ब्राउज़र में सेव रहेगा</li>
     </ol>
     <input type="password" id="hfToken" placeholder="hf_xxxxxxxx (वैकल्पिक)">
-    <p class="small" style="font-size:12px">कोटा खत्म होने पर वेबसाइट अपने-आप अगले फ्री मॉडल पर चली जाएगी, और आखिर में Pollinations + Motion हमेशा काम करेगा।</p>
+    <p style="font-size:12px">कोटा खत्म होने पर वेबसाइट अपने-आप अगले फ्री मॉडल पर चली जाएगी, और आखिर में Pollinations + Motion हमेशा काम करेगा।</p>
     <div class="row"><button id="clrTok">टोकन हटाएं</button><button class="pri" id="saveTok">Save</button></div>
+  </div>
+</div>
+
+<div class="drawer" id="authDrawer">
+  <div class="panel auth" id="authPanel">
+    <div id="authForms">
+      <h3>FreeVideoGenerator में आपका स्वागत है</h3>
+      <p style="margin:0">इमेज और वीडियो बनाने के लिए free अकाउंट बनाएं या लॉगिन करें।</p>
+      <div class="tabs2"><button class="on" data-t="login">Login</button><button data-t="signup">नया अकाउंट</button></div>
+      <button class="gbtn" id="gBtn"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.1C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.6 28.6A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.2 0-11.5-4.1-13.4-9.9l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>Google से जारी रखें</button>
+      <div class="or">या ईमेल से</div>
+      <div id="nameRow" style="display:none"><label>आपका नाम</label><input id="aName" type="text" autocomplete="name"></div>
+      <label>ईमेल</label><input id="aEmail" type="email" autocomplete="email" placeholder="you@gmail.com">
+      <label>पासवर्ड</label><input id="aPass" type="password" autocomplete="current-password" placeholder="कम से कम 6 अक्षर">
+      <label class="agree" id="agreeRow" style="display:none"><input type="checkbox" id="aAgree"> <span>मैं <a href="terms.html" target="_blank">Terms &amp; Conditions</a> और <a href="privacy.html" target="_blank">Privacy Policy</a> से सहमत हूँ</span></label>
+      <div class="err" id="aErr"></div>
+      <button class="pri full" id="aSubmit">Login</button>
+      <div style="text-align:center"><button class="link" id="aForgot">पासवर्ड भूल गए?</button></div>
+    </div>
+    <div id="authUser" style="display:none">
+      <h3>👤 मेरा अकाउंट</h3>
+      <div class="status" id="uInfo"></div>
+      <div class="row"><button id="uClose">बंद करें</button><button class="pri" id="uLogout">Logout</button></div>
+    </div>
   </div>
 </div>
 
@@ -196,31 +282,93 @@ import { Client, handle_file } from "https://cdn.jsdelivr.net/npm/@gradio/client
 
 const $ = s => document.querySelector(s);
 const store = { get(k){try{return localStorage.getItem(k)}catch{return null}}, set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}} };
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
 
 // ---------- Models ----------
+// kind: "image" models return images; others return videos
 const MODELS = {
-  auto:  { name: "✨ Auto (सबसे अच्छा फ्री)", modes: ["text","image"] },
-  ltx:   { name: "LTX-Video (तेज़)", modes: ["text","image"], space: "Lightricks/ltx-video-distilled" },
-  wan22: { name: "Wan 2.2 Fast", modes: ["text","image"], space: "zerogpu-aoti/wan2-2-fp8da-aoti-faster" },
-  wan21: { name: "Wan 2.1 Fast", modes: ["text","image"], space: "multimodalart/wan2-1-fast" },
-  motion:{ name: "Pollinations + Motion", modes: ["text","image"] },
+  // image — free models first, then Nano Banana (Puter)
+  imgauto:{ name: "✨ Auto फ्री (Z-Image → FLUX → Qwen)", kind: "image", modes: ["image"] },
+  zimg:  { name: "Z-Image Turbo (फ्री, बेहतरीन)", kind: "image", modes: ["image"] },
+  flux:  { name: "FLUX.1 Schnell (फ्री, तेज़)", kind: "image", modes: ["image"] },
+  qwen:  { name: "Qwen-Image (फ्री, टेक्स्ट वाली इमेज)", kind: "image", modes: ["image"] },
+  polli: { name: "Pollinations (फ्री, हमेशा चलता है)", kind: "image", modes: ["image"] },
+  nb2:   { name: "🍌 Nano Banana 2 (रेफरेंस फोटो)", kind: "image", puter: "gemini-3.1-flash-image", modes: ["image"] },
+  nb:    { name: "🍌 Nano Banana", kind: "image", puter: "google/gemini-2.5-flash-image", modes: ["image"] },
+  nbpro: { name: "🍌 Nano Banana Pro", kind: "image", puter: "gemini-3-pro-image", modes: ["image"] },
+  // video
+  auto:  { name: "✨ Auto (सबसे अच्छा फ्री)", modes: ["text","ingr","frames"] },
+  veolite:{ name: "Veo 3.1 Lite (Puter)", puter: "google/veo-3.1-lite", modes: ["text","ingr","frames"] },
+  veofast:{ name: "Veo 3.1 Fast + आवाज़ (Puter)", puter: "google/veo-3.1-fast", modes: ["text","ingr","frames"] },
+  ltx:   { name: "LTX-Video (तेज़, फ्री)", modes: ["text","frames"], space: "Lightricks/ltx-video-distilled" },
+  wan22: { name: "Wan 2.2 Fast (फ्री)", modes: ["text","ingr","frames"], space: "zerogpu-aoti/wan2-2-fp8da-aoti-faster" },
+  wan21: { name: "Wan 2.1 Fast (फ्री)", modes: ["text","ingr","frames"], space: "multimodalart/wan2-1-fast" },
+  motion:{ name: "Pollinations + Motion (हमेशा फ्री)", modes: ["text","ingr","frames"] },
 };
-const AUTO_ORDER = { text: ["ltx","wan22","wan21","motion"], image: ["wan22","ltx","wan21","motion"] };
+// Auto: free models first. Ingredients: Nano Banana composes a start frame, then free video model animates it.
+const AUTO_ORDER = { text: ["ltx","wan22","wan21","motion"], frames: ["wan22","ltx","wan21","motion"], ingr: ["wan22","wan21","ltx","motion"] };
 const NEG = "worst quality, blurry, distorted, deformed, low quality, watermark, text, static";
+const LIMITS = { image: 6, ingr: 3 };
 
-let mode = "text", frames = [], items = [], idc = 0;
+let mode = "text", refs = [], firstF = null, lastF = null, items = [], idc = 0, filter = "all";
 const clients = {};
 
 function fillModels(){
-  const sel = $("#model"), cur = sel.value || "auto";
-  sel.innerHTML = Object.entries(MODELS).filter(([,m])=>m.modes.includes(mode)).map(([k,m])=>`<option value="${k}">${m.name}</option>`).join("");
-  sel.value = cur;
+  const sel = $("#model"), prev = sel.value;
+  const opts = Object.entries(MODELS).filter(([,m])=>m.modes.includes(mode));
+  sel.innerHTML = opts.map(([k,m])=>`<option value="${k}">${m.name}</option>`).join("");
+  const saved = store.get("fvg_model_"+mode);
+  sel.value = opts.some(([k])=>k===saved) ? saved : opts.some(([k])=>k===prev) ? prev : opts[0][0];
 }
-fillModels();
 
-function dims(ratio){ return ratio === "9:16" ? { w: 480, h: 832 } : { w: 832, h: 480 }; }
+function dims(ratio){ return ratio === "9:16" ? { w: 480, h: 832 } : ratio === "1:1" ? { w: 640, h: 640 } : { w: 832, h: 480 }; }
 function toast(msg, ms=3500){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),ms); }
 
+// ---------- Puter (Nano Banana, Veo) ----------
+const hasPuter = () => typeof window.puter !== "undefined" && puter.ai;
+function puterSignedIn(){ try{ return hasPuter() && puter.auth.isSignedIn(); }catch{ return false; } }
+async function ensurePuter(){
+  if (!hasPuter()) throw new Error("Puter लोड नहीं हुआ — पेज रीफ्रेश करें");
+  if (!puterSignedIn()){ toast("🍌 Nano Banana/Veo के लिए free Puter अकाउंट से लॉगिन करें (popup खुलेगा)", 6000); await puter.auth.signIn(); }
+  refreshPuterStatus();
+}
+async function refreshPuterStatus(){
+  const el = $("#puterStatus");
+  if (!hasPuter()){ el.textContent = "❌ Puter लोड नहीं हुआ"; return; }
+  if (!puterSignedIn()){ el.textContent = "🔓 लॉगिन नहीं है — Nano Banana इस्तेमाल करने पर लॉगिन माँगा जाएगा"; return; }
+  try{ const u = await puter.auth.getUser(); el.textContent = "✅ लॉगिन: " + (u?.username || "Puter user"); }catch{ el.textContent = "✅ लॉगिन है"; }
+}
+function puterErr(e){
+  const code = e?.code || e?.error?.code || "", msg = e?.message || e?.error?.message || String(e);
+  if (/insufficient|funds|credit|quota|limit/i.test(code+" "+msg)) return Object.assign(new Error("Puter के free क्रेडिट खत्म — free मॉडल से बना रहे हैं"), { credit: true });
+  if (/moderation/i.test(code+" "+msg)) return new Error("यह प्रॉम्प्ट AI ने मना कर दिया, शब्द बदलकर कोशिश करें");
+  return new Error(msg.slice(0,160));
+}
+async function srcToBlob(src){ const r = await fetch(src); if(!r.ok) throw new Error("download "+r.status); return await r.blob(); }
+
+async function nanoBanana(modelKey, prompt, images, ratio, st){
+  st?.("🍌 " + MODELS[modelKey].name + " इमेज बना रहा है…");
+  const opts = { model: MODELS[modelKey].puter, aspect_ratio: ratio };
+  if (images?.length){ opts.input_images = images; opts.input_image_mime_type = images[0].type || "image/png"; }
+  let img;
+  try{ img = await puter.ai.txt2img(prompt, opts); }catch(e){ throw puterErr(e); }
+  return await srcToBlob(img.src);
+}
+
+async function puterVideo(modelKey, j, st){
+  const opts = { model: MODELS[modelKey].puter, seconds: Math.max(4, Math.min(8, j.dur)), aspect_ratio: j.ratio === "1:1" ? "9:16" : j.ratio,
+    size: j.ratio === "16:9" ? "1280x720" : "720x1280", generate_audio: modelKey === "veofast" };
+  if (j.image) opts.input_reference = j.image;
+  if (j.last) opts.last_frame = j.last;
+  if (j.refs?.length) opts.reference_images = j.refs;
+  st("🎬 " + MODELS[modelKey].name + " वीडियो बना रहा है… (1–4 मिनट)");
+  let v;
+  try{ v = await puter.ai.txt2vid(j.prompt, opts); }catch(e){ throw puterErr(e); }
+  const url = v.src || String(v);
+  try{ return { blob: await srcToBlob(url) }; }catch{ return { url }; }
+}
+
+// ---------- Hugging Face spaces ----------
 async function getClient(space){
   const tok = store.get("nvg_hf");
   const key = space + (tok||"");
@@ -250,7 +398,6 @@ async function runSpace(space, endpoint, payload, onStatus){
     throw new Error("जॉब रद्द/समय समाप्त");
   } finally { clearTimeout(timeout); }
 }
-async function urlToBlob(u){ const r = await fetch(u); if(!r.ok) throw new Error("download "+r.status); return await r.blob(); }
 
 // Pollinations free tier: ~1 image / 45s per IP — we queue & wait automatically
 let polNext = 0;
@@ -259,11 +406,11 @@ async function pollinationsImage(prompt, ratio, st){
   for (let a=0; a<5; a++){
     const wait = polNext - Date.now();
     if (wait > 0){
-      for (let s=Math.ceil(wait/1000); s>0; s--){ st?.(`🎨 फ्री इमेज लिमिट: ${s} सेकंड में अगली इमेज…`); await new Promise(r=>setTimeout(r,1000)); }
+      for (let s=Math.ceil(wait/1000); s>0; s--){ st?.(`🎨 फ्री इमेज लिमिट: ${s} सेकंड में अगली इमेज…`); await sleep(1000); }
     }
     st?.("🎨 Pollinations AI इमेज बना रहा है…");
     const seed = Math.floor(Math.random()*1e9);
-    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w*2}&height=${h*2}&nologo=true&seed=${seed}&model=flux`;
+    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w*2}&height=${h*2}&nologo=true&seed=${seed}`;
     try{
       const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 120000);
       const r = await fetch(url, { signal: ctrl.signal }); clearTimeout(t);
@@ -279,6 +426,45 @@ async function pollinationsImage(prompt, ratio, st){
   throw new Error("AI इमेज सर्वर व्यस्त है, थोड़ी देर बाद कोशिश करें");
 }
 
+// Free image models on Hugging Face ZeroGPU (no login needed; HF token gives more quota)
+const IMG_SPACES = {
+  zimg: { space: "Tongyi-MAI/Z-Image-Turbo", ep: "/generate", payload: (p,r)=>({ prompt: p,
+          resolution: r==="9:16" ? "720x1280 ( 9:16 )" : r==="16:9" ? "1280x720 ( 16:9 )" : "1024x1024 ( 1:1 )",
+          seed: 42, steps: 8, shift: 3, random_seed: true, gallery_images: [] }) },
+  flux: { space: "black-forest-labs/FLUX.1-schnell", ep: "/infer", payload: (p,r)=>{ const [w,h] = r==="9:16" ? [576,1024] : r==="16:9" ? [1024,576] : [1024,1024];
+          return { prompt: p, seed: 0, randomize_seed: true, width: w, height: h, num_inference_steps: 4 }; } },
+  qwen: { space: "multimodalart/Qwen-Image-Fast", ep: "/infer", payload: (p,r)=>({ prompt: p, seed: 0, randomize_seed: true, aspect_ratio: r,
+          guidance_scale: 1, num_inference_steps: 8, prompt_enhance: true }) },
+};
+const isQuota = m => /quota|runs limit/i.test(m);
+async function freeImage(prompt, ratio, st, first){
+  const order = [first, "zimg", "flux", "qwen"].filter((x,i,a)=>x && IMG_SPACES[x] && a.indexOf(x)===i);
+  for (const k of order){
+    if (Date.now() < gpuOutUntil) break;
+    try{
+      st?.(`🎨 ${MODELS[k].name.split(" (")[0]} इमेज बना रहा है…`);
+      const u = await runSpace(IMG_SPACES[k].space, IMG_SPACES[k].ep, IMG_SPACES[k].payload(prompt, ratio), st);
+      return { blob: await srcToBlob(u), model: k };
+    }catch(e){ const m = String(e?.message||e); console.warn(k, m); if (isQuota(m)) noteQuota(m); }
+  }
+  return { blob: await pollinationsImage(prompt, ratio, st), model: "polli" };
+}
+
+// Start frame for free video models: Ingredients → Nano Banana composes a scene from refs; else Pollinations
+let puterCreditOut = false;
+async function startFrame(j, st){
+  if (j.image) return j.image;
+  if (j.refs?.length){
+    if (!puterCreditOut && puterSignedIn()){
+      try{ j.image = await nanoBanana("nb2", `${j.prompt}. Use the people, characters, objects and places from the reference images exactly as they look. Single cinematic frame, ${j.ratio} composition.`, j.refs, j.ratio, st); return j.image; }
+      catch(e){ if (e.credit) puterCreditOut = true; console.warn("nb compose", e); }
+    }
+    st("🧩 पहली रेफरेंस फोटो से वीडियो बना रहे हैं…");
+    return (j.image = j.refs[0]);
+  }
+  return (j.image = (await freeImage(j.prompt, j.ratio, st)).blob);
+}
+
 // ZeroGPU quota tracking (shared by all HF models for one user/IP)
 let gpuOutUntil = 0;
 function noteQuota(msg){
@@ -287,50 +473,55 @@ function noteQuota(msg){
   gpuOutUntil = Date.now() + Math.max(secs, 300)*1000;
 }
 
-// engines: j = { prompt, image, ratio, dur } (j.image cached if AI image generated); return { blob?, url }
+// video engines: j = { prompt, image, last, refs, ratio, dur }
 const ENGINES = {
+  veolite(j, st){ return puterVideo("veolite", j, st); },
+  veofast(j, st){ return puterVideo("veofast", j, st); },
   async ltx(j, st){
     const { w, h } = dims(j.ratio);
     const isImg = !!j.image;
     st("🎬 LTX-Video GPU पर बना रहा है…");
     const u = await runSpace(MODELS.ltx.space, isImg ? "/image_to_video" : "/text_to_video", {
       prompt: j.prompt, negative_prompt: NEG, input_image_filepath: isImg ? handle_file(j.image) : null, input_video_filepath: null,
-      height_ui: h, width_ui: w, mode: isImg ? "image-to-video" : "text-to-video", duration_ui: j.dur,
+      height_ui: h, width_ui: w, mode: isImg ? "image-to-video" : "text-to-video", duration_ui: Math.min(j.dur, 5),
       ui_frames_to_use: 9, seed_ui: 42, randomize_seed: true, ui_guidance_scale: 1, improve_texture_flag: true
     }, st);
     return { url: u };
   },
   async wan22(j, st){
-    if (!j.image) j.image = await pollinationsImage(j.prompt, j.ratio, st);
+    const img = await startFrame(j, st);
     st("🎬 Wan 2.2 वीडियो बना रहा है…");
     const u = await runSpace(MODELS.wan22.space, "/generate_video", {
-      input_image: handle_file(j.image), prompt: j.prompt, steps: 6, negative_prompt: NEG, duration_seconds: j.dur,
+      input_image: handle_file(img), prompt: j.prompt, steps: 6, negative_prompt: NEG, duration_seconds: Math.min(j.dur, 5),
       guidance_scale: 1, guidance_scale_2: 1, seed: 42, randomize_seed: true
     }, st);
     return { url: u };
   },
   async wan21(j, st){
     const { w, h } = dims(j.ratio);
-    if (!j.image) j.image = await pollinationsImage(j.prompt, j.ratio, st);
+    const img = await startFrame(j, st);
     st("🎬 Wan 2.1 वीडियो बना रहा है…");
     const u = await runSpace(MODELS.wan21.space, "/generate_video", {
-      input_image: handle_file(j.image), prompt: j.prompt, height: h, width: w, negative_prompt: NEG,
+      input_image: handle_file(img), prompt: j.prompt, height: h, width: w, negative_prompt: NEG,
       duration_seconds: Math.min(j.dur, 3.4), guidance_scale: 1, steps: 4, seed: 42, randomize_seed: true
     }, st);
     return { url: u };
   },
   async motion(j, st){
-    if (!j.image) j.image = await pollinationsImage(j.prompt, j.ratio, st);
+    const img0 = await startFrame(j, st);
     st("🎥 सिनेमैटिक मोशन रिकॉर्ड हो रहा है… (टैब खुला रखें)");
-    const img = await blobToImg(j.image), k = Math.floor(Math.random()*4);
-    const blob = await recordCanvas({ ratio: j.ratio, duration: j.dur, draw: (t)=>drawKenBurns(img, t/j.dur, k) });
+    const img = await blobToImg(img0), img2 = j.last ? await blobToImg(j.last) : null, k = Math.floor(Math.random()*4);
+    const blob = await recordCanvas({ ratio: j.ratio, duration: j.dur, draw: (t)=>{
+      const p = t/j.dur; drawKenBurns(img, p, k);
+      if (img2 && p > .5){ ctx.globalAlpha = Math.min(1,(p-.5)*2); drawKenBurns(img2, p, k); ctx.globalAlpha = 1; }
+    }});
     return { blob };
   }
 };
 
 // ---------- Canvas helpers ----------
 const cv = $("#work"), ctx = cv.getContext("2d");
-function setCanvas(ratio){ if (ratio === "9:16"){ cv.width=720; cv.height=1280; } else { cv.width=1280; cv.height=720; } }
+function setCanvas(ratio){ if (ratio === "9:16"){ cv.width=720; cv.height=1280; } else if (ratio === "1:1"){ cv.width=1080; cv.height=1080; } else { cv.width=1280; cv.height=720; } }
 function blobToImg(b){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=URL.createObjectURL(b); }); }
 function cover(src, sw, sh, scale=1, ox=0){
   const r = Math.max(cv.width/sw, cv.height/sh)*scale, w=sw*r, h=sh*r;
@@ -339,7 +530,7 @@ function cover(src, sw, sh, scale=1, ox=0){
 const motionKinds = ["zoomin","panr","zoomout","panl"];
 function drawKenBurns(img, p, k){
   const e = p*p*(3-2*p), m = motionKinds[k%4];
-  ctx.fillStyle="#000"; ctx.fillRect(0,0,cv.width,cv.height);
+  if (ctx.globalAlpha === 1){ ctx.fillStyle="#000"; ctx.fillRect(0,0,cv.width,cv.height); }
   if (m==="zoomin") cover(img,img.width,img.height,1.05+.2*e);
   else if (m==="zoomout") cover(img,img.width,img.height,1.25-.2*e);
   else if (m==="panl") cover(img,img.width,img.height,1.2,.9-1.8*e);
@@ -361,16 +552,16 @@ function pickMime(){
   return ["video/mp4;codecs=avc1.42E01E,mp4a.40.2","video/mp4;codecs=avc1","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"]
     .find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m)) || "";
 }
-// generic recorder: draw(t) called each frame for duration seconds; or stepper() for clip playback
-async function recordCanvas({ ratio, duration, draw, run, audioFile, onProg }){
+// audio(actx, dest) builds the sound graph and may return { start(), stop(), tick(t) }
+async function recordCanvas({ ratio, duration, draw, run, audio, onProg }){
   setCanvas(ratio);
   const stream = cv.captureStream(30);
-  let actx, audioEl, gain;
-  if (audioFile){
-    audioEl = new Audio(URL.createObjectURL(audioFile)); actx = new AudioContext();
-    const src = actx.createMediaElementSource(audioEl), dest = actx.createMediaStreamDestination();
-    gain = actx.createGain(); src.connect(gain); gain.connect(dest);
+  let actx = null, ctl = {};
+  if (audio){
+    actx = new AudioContext(); const dest = actx.createMediaStreamDestination();
+    ctl = (await audio(actx, dest)) || {};
     dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
+    await actx.resume();
   }
   const mime = pickMime();
   const rec = new MediaRecorder(stream, { mimeType: mime || undefined, videoBitsPerSecond: 8_000_000 });
@@ -378,53 +569,141 @@ async function recordCanvas({ ratio, duration, draw, run, audioFile, onProg }){
   const stopped = new Promise(r=>rec.onstop=r);
   if (draw) draw(0);
   rec.start(250);
-  if (audioEl){ await actx.resume(); audioEl.play().catch(()=>{}); }
-  if (run){ await run(gain); }
+  ctl.start?.();
+  if (run){ await run(ctl); }
   else {
     const t0 = performance.now();
     await new Promise(res=>{ (function loop(){ const t=(performance.now()-t0)/1000; if(t>=duration){ draw(duration-.001); return res(); } draw(t); onProg?.(t/duration); requestAnimationFrame(loop); })(); });
   }
   rec.stop(); await stopped;
-  if (audioEl){ audioEl.pause(); actx.close(); }
+  ctl.stop?.(); actx?.close();
   stream.getTracks().forEach(t=>t.stop());
   const blob = new Blob(chunks, { type: (mime||"video/webm").split(";")[0] });
   blob.ext = mime.includes("mp4") ? "mp4" : "webm";
   return blob;
 }
 
-// join clips: play each clip into canvas
+async function loadVideo(it){
+  const v = document.createElement("video"); v.muted = true; v.playsInline = true; v.crossOrigin = "anonymous"; v.preload = "auto";
+  v.src = it.blob ? URL.createObjectURL(it.blob) : it.url;
+  await new Promise((res,rej)=>{ v.onloadeddata=res; v.onerror=()=>rej(new Error("क्लिप लोड नहीं हुई")); });
+  return v;
+}
+// grab the last frame of a video (Flow-style "extend")
+async function lastFrameOf(it){
+  const v = await loadVideo(it);
+  await new Promise(res=>{ v.onseeked=res; v.currentTime = Math.max(0,(v.duration||3)-0.05); });
+  const c = document.createElement("canvas"); c.width = v.videoWidth; c.height = v.videoHeight;
+  c.getContext("2d").drawImage(v,0,0);
+  return await new Promise(r=>c.toBlob(b=>r(new File([b],"lastframe.png",{type:"image/png"})),"image/png"));
+}
+
 async function joinClips(list, { ratio, caption, audioFile }, onProg){
   const vids = [];
-  for (const it of list){
-    const v = document.createElement("video"); v.muted = true; v.playsInline = true; v.crossOrigin = "anonymous"; v.preload = "auto";
-    v.src = it.blob ? URL.createObjectURL(it.blob) : it.url;
-    await new Promise((res,rej)=>{ v.onloadeddata=res; v.onerror=()=>rej(new Error("क्लिप लोड नहीं हुई")); });
-    vids.push(v);
-  }
+  for (const it of list) vids.push(await loadVideo(it));
   const total = vids.reduce((s,v)=>s+(v.duration||3),0);
   await document.fonts.ready;
-  return recordCanvas({ ratio, audioFile, run: async (gain)=>{
-    let elapsed = 0;
-    for (let i=0;i<vids.length;i++){
-      const v = vids[i]; v.currentTime = 0; await v.play();
-      await new Promise(res=>{
-        (function loop(){
-          const t = elapsed + v.currentTime;
-          ctx.fillStyle="#000"; ctx.fillRect(0,0,cv.width,cv.height);
-          cover(v, v.videoWidth||cv.width, v.videoHeight||cv.height, 1);
-          const lt=v.currentTime, ld=v.duration||3, f=Math.min(1, lt/.25, (ld-lt)/.25);
-          if (i>0 && lt<.25 || i<vids.length-1 && ld-lt<.25){ ctx.fillStyle=`rgba(0,0,0,${1-Math.max(0,f)})`; ctx.fillRect(0,0,cv.width,cv.height); }
-          drawCaption(caption, t, total);
-          if (gain) gain.gain.value = Math.max(0, Math.min(1,(total-t)/.8));
-          onProg?.(t/total);
-          if (v.ended || v.paused && v.currentTime >= ld-.05) return res();
-          requestAnimationFrame(loop);
-        })();
-        v.onended = ()=>setTimeout(res,0);
-      });
-      elapsed += v.duration||3;
-    }
-  }});
+  return recordCanvas({ ratio,
+    audio: (actx, dest)=>{
+      const clipGain = actx.createGain(); clipGain.gain.value = audioFile ? .75 : 1; clipGain.connect(dest);
+      vids.forEach(v=>{ v.muted = false; actx.createMediaElementSource(v).connect(clipGain); });
+      if (!audioFile) return {};
+      const el = new Audio(URL.createObjectURL(audioFile)), g = actx.createGain();
+      actx.createMediaElementSource(el).connect(g); g.connect(dest);
+      return { start(){ el.play().catch(()=>{}); }, stop(){ el.pause(); }, tick(t){ g.gain.value = Math.max(0, Math.min(1,(total-t)/.8)); } };
+    },
+    run: async (ctl)=>{
+      let elapsed = 0;
+      for (let i=0;i<vids.length;i++){
+        const v = vids[i]; v.currentTime = 0; await v.play();
+        await new Promise(res=>{
+          (function loop(){
+            const t = elapsed + v.currentTime;
+            ctx.fillStyle="#000"; ctx.fillRect(0,0,cv.width,cv.height);
+            cover(v, v.videoWidth||cv.width, v.videoHeight||cv.height, 1);
+            const lt=v.currentTime, ld=v.duration||3, f=Math.min(1, lt/.25, (ld-lt)/.25);
+            if (i>0 && lt<.25 || i<vids.length-1 && ld-lt<.25){ ctx.fillStyle=`rgba(0,0,0,${1-Math.max(0,f)})`; ctx.fillRect(0,0,cv.width,cv.height); }
+            drawCaption(caption, t, total);
+            ctl.tick?.(t);
+            onProg?.(t/total);
+            if (v.ended || v.paused && v.currentTime >= ld-.05) return res();
+            requestAnimationFrame(loop);
+          })();
+          v.onended = ()=>setTimeout(res,0);
+        });
+        elapsed += v.duration||3;
+      }
+    }});
+}
+
+// ---------- Sound: AI sound effects (MMAudio) + Hindi/English voice (free TTS) ----------
+const VOICES = { f: "priyamvada", m: "pratham", m2: "rohan" };
+const EN_VOICES = { f: /amy|kristin|lessac|ljspeech/, m: /ryan|joe|john|norman|bryce/, m2: /ryan|joe|john|norman|bryce/ };
+// dialogue = text inside double quotes in the prompt:  लड़की कहती है "मुझे घर जाना है"
+function dialogueOf(text){ return [...text.matchAll(/["“”]([^"“”]{2,})["“”]/g)].map(m=>m[1].trim()).join(" "); }
+async function tts(text, voice="f"){
+  const hindi = /[\u0900-\u097F]/.test(text), lang = hindi ? "Hindi" : "English";
+  const c = await getClient("k2-fsa/text-to-speech");          // CPU space — no GPU quota
+  const d = await c.predict("/update_model_dropdown", { language: lang });
+  const ch = (d.data?.[0]?.choices || []).map(x=>Array.isArray(x)?x[0]:x);
+  const rid = (hindi ? ch.find(x=>x.includes(VOICES[voice])) : ch.find(x=>/piper-en_US/.test(x) && EN_VOICES[voice].test(x))) || ch.find(x=>/piper/.test(x)) || ch[0];
+  const r = await c.predict("/process", { language: lang, repo_id: rid, text, sid: "0", speed: 1 });
+  const u = findUrl(r.data); if (!u) throw new Error("आवाज़ नहीं बनी");
+  return new Blob([await (await fetch(u)).arrayBuffer()], { type: "audio/wav" });
+}
+async function videoDuration(blob){ const v = await loadVideo({ blob }); return v.duration || 3; }
+async function addSfx(blob, prompt, st){
+  st("🔊 AI साउंड इफ़ेक्ट बन रहे हैं (MMAudio)…");
+  const dur = await videoDuration(blob);
+  const file = new File([blob], "clip." + (blob.ext || (blob.type.includes("webm") ? "webm" : "mp4")), { type: blob.type || "video/mp4" });
+  const u = await runSpace("hkchengrex/MMAudio", "/video_to_audio", { video: handle_file(file), prompt: prompt.replace(/["“”][^"“”]*["“”]/g, ""),
+    negative_prompt: "music, speech, talking", seed: -1, num_steps: 25, cfg_strength: 4.5, duration: Math.min(8, Math.ceil(dur)) }, st);
+  return await srcToBlob(u);
+}
+// put a voice track on top of a clip (keeps the clip's own sound quieter underneath)
+async function mixVoice(videoBlob, voiceBlob, ratio, st){
+  st("🗣️ आवाज़ वीडियो में जोड़ी जा रही है… (टैब खुला रखें)");
+  const v = await loadVideo({ blob: videoBlob });
+  const a = new Audio(URL.createObjectURL(voiceBlob));
+  await new Promise(r=>{ a.onloadedmetadata = r; a.onerror = r; setTimeout(r, 4000); });
+  const lead = .35, total = Math.max(v.duration||3, (isFinite(a.duration) ? a.duration : 0) + lead + .3);
+  return recordCanvas({ ratio,
+    audio: (actx, dest)=>{
+      v.muted = false; const g = actx.createGain(); g.gain.value = .45;
+      actx.createMediaElementSource(v).connect(g); g.connect(dest);
+      actx.createMediaElementSource(a).connect(dest);
+      return {};
+    },
+    run: async ()=>{
+      v.currentTime = 0; await v.play(); setTimeout(()=>a.play().catch(()=>{}), lead*1000);
+      const t0 = performance.now();
+      await new Promise(res=>{ (function loop(){
+        const t = (performance.now()-t0)/1000;
+        ctx.fillStyle="#000"; ctx.fillRect(0,0,cv.width,cv.height);
+        cover(v, v.videoWidth||cv.width, v.videoHeight||cv.height, 1);
+        if (t >= total) return res();
+        requestAnimationFrame(loop);
+      })(); });
+      v.pause(); a.pause();
+    }});
+}
+async function addSound(it, j, st){
+  const want = j.sound;                       // auto | sfx | voice | none
+  if (want === "none" || !it.blob) return;
+  const nativeAudio = it.usedModel === "veofast";   // Veo Fast already makes sound + speech
+  if (!nativeAudio && (want === "auto" || want === "sfx")){
+    if (Date.now() < gpuOutUntil) toast("फ्री GPU कोटा खत्म — इस क्लिप में साउंड इफ़ेक्ट नहीं जुड़े", 5000);
+    else try{ const b = await addSfx(it.blob, j.prompt, st); it.blob = b; it.url = null; it.hasAudio = true; }
+    catch(e){ const m = String(e?.message||e); console.warn("sfx", m); if (isQuota(m)) noteQuota(m); toast("साउंड इफ़ेक्ट नहीं बने: " + m.slice(0,80), 5000); }
+  }
+  if (!nativeAudio && j.speech && (want === "auto" || want === "voice")){
+    try{
+      st("🗣️ आवाज़ बन रही है…");
+      const voice = await tts(j.speech, j.voice);
+      it.blob = await mixVoice(it.blob, voice, j.ratio, st); it.url = null; it.hasAudio = true;
+    }catch(e){ console.warn("tts", e); toast("आवाज़ नहीं जुड़ पाई: " + String(e?.message||e).slice(0,80), 5000); }
+  }
+  if (nativeAudio) it.hasAudio = true;
 }
 
 // ---------- Gallery ----------
@@ -434,110 +713,181 @@ function render(){
   const g = $("#grid");
   for (const it of items){
     if (!it.el){
-      it.el = document.createElement("div"); it.el.className = "card" + (it.ratio==="9:16"?" v":"");
+      it.el = document.createElement("div"); it.el.className = "card" + (it.ratio==="9:16"?" v":it.ratio==="1:1"?" sq":"");
       g.prepend(it.el);
     }
-    const el = it.el; el.classList.toggle("sel", !!it.sel);
+    const el = it.el, isImg = it.type === "image";
+    el.style.display = filter==="all" || filter===it.type ? "" : "none";
+    el.classList.toggle("sel", !!it.sel);
     const src = it.blob ? (it._src ||= URL.createObjectURL(it.blob)) : it.url;
     const mediaHTML = it.status==="done"
-      ? `<video src="${src}" controls loop playsinline ${it.autoplay?"autoplay muted":""}></video>`
+      ? (isImg ? `<img src="${src}" alt="" style="cursor:zoom-in">` : `<video src="${src}" controls loop playsinline ${it.autoplay?"autoplay muted":""}></video>`)
       : it.status==="error"
         ? `<div class="load" style="animation:none"><div style="font-size:28px">⚠️</div>${it.msg||"Error"}</div>`
         : `<div class="load"><div class="spin"></div><div>${it.msg||"शुरू हो रहा है…"}</div><div style="font-size:11px">${it.elapsed||0}s</div></div>`;
-    if (el._state !== it.status + (it.msg||"") + (it.elapsed||0) + (it.sel?1:0)){
-      el._state = it.status + (it.msg||"") + (it.elapsed||0) + (it.sel?1:0);
-      const keepVideo = it.status==="done" && el.querySelector("video");
-      if (!keepVideo){
-        el.innerHTML = `${it.status==="done"?`<div class="selbox" title="जोड़ने के लिए चुनें">${it.sel?"✓":""}</div>`:""}
+    const state = it.status + (it.msg||"") + (it.elapsed||0) + (it.sel?1:0);
+    if (el._state !== state){
+      el._state = state;
+      const keep = it.status==="done" && el.querySelector(isImg?".media img":"video");
+      if (!keep){
+        const acts = it.status==="done"
+          ? (isImg
+              ? `<button data-a="anim">🎬 वीडियो बनाएं</button><button data-a="ingr">🧩 Ingredient</button><button data-a="edit">🍌 एडिट</button><button data-a="dl">⬇️</button><button data-a="again">🔁</button><button data-a="del">🗑️</button>`
+              : `<button data-a="dl">⬇️ Download</button><button data-a="extend">➕ अगला सीन</button><button data-a="again">🔁</button><button data-a="del">🗑️</button>`)
+          : it.status==="error" ? `<button data-a="again">🔁 फिर कोशिश</button><button data-a="del">🗑️</button>` : "";
+        el.innerHTML = `${it.status==="done" && !isImg?`<div class="selbox" title="जोड़ने के लिए चुनें">${it.sel?"✓":""}</div>`:""}
           <div class="media">${mediaHTML}</div>
-          <div class="meta"><div class="p"></div><div class="tags"></div>
-          ${it.status==="done"?`<div class="acts"><button data-a="dl">⬇️ Download</button><button data-a="again">🔁 फिर बनाएं</button><button data-a="del">🗑️</button></div>`
-            : it.status==="error"?`<div class="acts"><button data-a="again">🔁 फिर कोशिश</button><button data-a="del">🗑️</button></div>`:""}</div>`;
+          <div class="meta"><div class="p"></div><div class="tags"></div>${acts?`<div class="acts">${acts}</div>`:""}</div>`;
         el.querySelector(".p").textContent = it.prompt || "(फोटो से वीडियो)";
         el.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>act(it,b.dataset.a));
         const sb = el.querySelector(".selbox"); if (sb) sb.onclick=()=>{ it.sel=!it.sel; render(); };
+        const im = el.querySelector(".media img"); if (im) im.onclick=()=>{ $("#viewer img").src = im.src; $("#viewer").classList.add("show"); };
       } else {
         const sb = el.querySelector(".selbox"); if (sb) sb.textContent = it.sel?"✓":"";
       }
-      el.querySelector(".tags").innerHTML = `<span class="tag m">${it.modelName||""}</span><span class="tag">${it.ratio}</span>${it.kind==="join"?'<span class="tag">जोड़ा गया</span>':""}${it.status==="error"?'<span class="tag e">failed</span>':""}`;
+      el.querySelector(".tags").innerHTML = `<span class="tag ${isImg?"b":"m"}">${it.modelName||""}</span><span class="tag">${it.ratio}</span>${it.hasAudio?'<span class="tag">🔊 आवाज़</span>':""}${it.kind==="join"?'<span class="tag">जोड़ा गया</span>':""}${it.status==="error"?'<span class="tag e">failed</span>':""}`;
     }
   }
-  const sel = items.filter(i=>i.sel && i.status==="done");
+  const sel = items.filter(i=>i.sel && i.status==="done" && i.type==="video");
   $("#joinbar").classList.toggle("show", sel.length>0);
   $("#joinCount").textContent = `${sel.length} क्लिप चुनी`;
 }
 function remove(it){ items = items.filter(x=>x!==it); it.el?.remove(); render(); }
+function asFile(it){ return new File([it.blob], `image_${it.id}.png`, { type: it.blob.type || "image/png" }); }
 async function act(it, a){
   if (a==="del") return remove(it);
-  if (a==="again"){ remove(it); return generateOne({ prompt: it.prompt, image: it.image, ratio: it.ratio, dur: it.dur, model: it.model }); }
   if (a==="dl") return download(it);
+  if (a==="again"){ remove(it); return it.type==="image" ? generateImage({ ...it.job }) : generateVideo({ ...it.job }); }
+  if (a==="anim"){ setMode("frames"); firstF = asFile(it); lastF = null; $("#ratio").value = it.ratio; drawRefs(); ta.focus(); return toast("🎞️ यह इमेज पहला फ्रेम बन गई — अब मोशन लिखें और ➤ दबाएं"); }
+  if (a==="ingr"){ if (mode!=="ingr") setMode("ingr"); if (refs.length>=LIMITS.ingr) return toast("ज़्यादा से ज़्यादा 3 ingredients"); refs.push(asFile(it)); drawRefs(); return toast("🧩 Ingredient जोड़ा गया"); }
+  if (a==="edit"){ setMode("image"); refs = [asFile(it)]; $("#ratio").value = it.ratio; drawRefs(); ta.focus(); return toast("🍌 अब लिखें क्या बदलना है (जैसे: बैकग्राउंड को बारिश वाली रात बना दो)"); }
+  if (a==="extend"){
+    try{ toast("आखिरी फ्रेम निकाल रहे हैं…"); const f = await lastFrameOf(it); setMode("frames"); firstF = f; lastF = null; $("#ratio").value = it.ratio; drawRefs(); ta.focus(); toast("➕ पिछले सीन का आखिरी फ्रेम = अगले सीन का पहला फ्रेम। अगला सीन लिखें"); }
+    catch{ toast("इस क्लिप से फ्रेम नहीं निकल पाया"); }
+  }
 }
 async function download(it){
   try{
-    const blob = it.blob || await urlToBlob(it.url);
-    const ext = blob.ext || (blob.type.includes("webm")?"webm":"mp4");
+    const blob = it.blob || await srcToBlob(it.url);
+    const ext = it.type==="image" ? ((blob.type.split("/")[1]||"png").replace("jpeg","jpg")) : (blob.ext || (blob.type.includes("webm")?"webm":"mp4"));
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `freevideogenerator_${Date.now()}.${ext}`; document.body.appendChild(a); a.click(); a.remove();
   }catch{ window.open(it.url, "_blank"); }
 }
+function newItem(o){ const it = { id: ++idc, status: "run", msg: "शुरू हो रहा है…", ...o }; items.push(it); render(); return it; }
+function ticker(it){ const t0 = Date.now(); return setInterval(()=>{ it.elapsed = Math.round((Date.now()-t0)/1000); render(); }, 1000); }
 
-// ---------- Generate ----------
-async function generateOne({ prompt, image, ratio, dur, model }){
-  const it = { id: ++idc, prompt, image, ratio, dur, model, status: "run", msg: "शुरू हो रहा है…", modelName: MODELS[model].name };
-  items.push(it); render();
-  const t0 = Date.now(); const tick = setInterval(()=>{ it.elapsed = Math.round((Date.now()-t0)/1000); render(); }, 1000);
-  const order = model==="auto" ? AUTO_ORDER[image?"image":"text"] : [model];
-  const j = { prompt, image, ratio, dur };
+// ---------- Generate: images ----------
+async function generateImage(job){
+  const { prompt, refs: r, ratio, model } = job;
+  const it = newItem({ type: "image", prompt, ratio, job, modelName: MODELS[model].name });
+  const tick = ticker(it);
+  const st = s=>{ it.msg = s; render(); };
+  try{
+    let blob, used = model;
+    const isNB = !!MODELS[model].puter;
+    if (isNB || (model==="imgauto" && r?.length)){
+      const nbk = isNB ? model : "nb2";
+      try{ blob = await nanoBanana(nbk, prompt, r, ratio, st); used = nbk; }
+      catch(e){
+        if (r?.length) throw e;          // refs need Nano Banana — free models can't use them
+        toast(e.message + " — फ्री मॉडल से बना रहे हैं", 5000);
+      }
+    } else if (r?.length) toast("रेफरेंस फोटो सिर्फ 🍌 Nano Banana में काम करती हैं — यह फ्री मॉडल सिर्फ प्रॉम्प्ट से बनाएगा", 5000);
+    if (!blob){
+      if (model === "polli") { blob = await pollinationsImage(prompt, ratio, st); used = "polli"; }
+      else { const res = await freeImage(prompt, ratio, st, IMG_SPACES[model] ? model : null); blob = res.blob; used = res.model; }
+    }
+    Object.assign(it, { blob, status: "done", msg: "", modelName: MODELS[used].name });
+  }catch(e){
+    it.status = "error"; it.msg = "इमेज नहीं बनी: " + String(e?.message||e).slice(0,140);
+  }finally{ clearInterval(tick); render(); }
+  return it;
+}
+
+// ---------- Generate: videos ----------
+async function generateVideo(job){
+  const { prompt, image, last, refs: r, ratio, dur, model, sound = "auto", speech = "", voice = "f" } = job;
+  const it = newItem({ type: "video", prompt, ratio, job, modelName: MODELS[model].name });
+  const tick = ticker(it);
+  const kind = r?.length ? "ingr" : image ? "frames" : "text";
+  let order = model==="auto" ? AUTO_ORDER[kind] : [model];
+  if (model !== "auto" && MODELS[model].puter) order = [model, ...AUTO_ORDER[kind]];   // Veo fails → free models
+  const j = { prompt, image, last, refs: r, ratio, dur, sound, speech, voice };
   let lastErr;
   try{
     for (const m of order){
-      if (MODELS[m].space && model==="auto" && Date.now() < gpuOutUntil) continue;
+      if (MODELS[m].space && order.length>1 && Date.now() < gpuOutUntil) continue;
+      if (MODELS[m].puter && puterCreditOut && m !== order[0]) continue;
       it.modelName = MODELS[m].name; it.msg = `${MODELS[m].name} से बन रहा है…`; render();
       try{
-        const r = await ENGINES[m](j, (s)=>{ it.msg = s; render(); });
-        Object.assign(it, r, { status: "done", msg: "", usedModel: m });
-        if (r.url){ try{ it.blob = await urlToBlob(r.url); }catch{} }
+        const res = await ENGINES[m](j, (s)=>{ it.msg = s; render(); });
+        Object.assign(it, res, { usedModel: m });
+        if (res.url && !res.blob){ try{ it.blob = await srcToBlob(res.url); }catch{} }
+        if (it.blob) it.url = null;
+        await addSound(it, j, (s)=>{ it.msg = s; render(); });
+        it._src = null; Object.assign(it, { status: "done", msg: "" });
         return it;
       }catch(e){
         lastErr = e; const msg = String(e?.message||e);
         console.warn(m, msg);
-        if (/quota/i.test(msg)){ noteQuota(msg); if (model==="auto") toast("फ्री GPU कोटा खत्म — अब Pollinations + Motion से बना रहे हैं (Settings में free HF टोकन डालकर ज़्यादा कोटा पाएं)", 6000); }
+        if (e.credit){ puterCreditOut = true; toast(msg, 6000); }
+        if (isQuota(msg)){ noteQuota(msg); if (order.length>1) toast("फ्री GPU कोटा खत्म — अगले फ्री मॉडल से बना रहे हैं (Settings में free HF टोकन डालकर ज़्यादा कोटा पाएं)", 6000); }
       }
     }
     throw lastErr || new Error("असफल");
   }catch(e){
     const msg = String(e?.message||e);
-    it.status = "error"; it.msg = /quota/i.test(msg) ? "फ्री GPU कोटा खत्म — Settings में free HF टोकन डालें या Auto चुनें" : "बनाने में दिक्कत: " + msg.slice(0,140);
+    it.status = "error"; it.msg = isQuota(msg) ? "फ्री GPU कोटा खत्म — Settings में free HF टोकन डालें या Auto चुनें" : "बनाने में दिक्कत: " + msg.slice(0,140);
     return it;
   }finally{ clearInterval(tick); render(); }
 }
 
 async function onGenerate(){
+  if (!requireLogin()) return;
+  const model = $("#model").value;
+  const needsPuter = !!MODELS[model].puter || (refs.length && hasPuter() && ((mode==="ingr" && model==="auto") || (mode==="image" && model==="imgauto")));
+  if (needsPuter && !puterSignedIn()){
+    try{ await ensurePuter(); }
+    catch{ if (MODELS[model].puter) return toast("लॉगिन नहीं हुआ — फ्री मॉडल चुनें या फिर से कोशिश करें", 5000); }
+  }
   const raw = $("#prompt").value.trim();
-  const style = $("#style").value, ratio = $("#ratio").value, dur = +$("#dur").value, model = $("#model").value;
+  const style = $("#style").value, ratio = $("#ratio").value, dur = +$("#dur").value, sound = $("#sound").value, voice = $("#voice").value;
   const autojoin = $("#autojoin").value === "1";
+  const lines = raw.split("\n").map(s=>s.trim()).filter(Boolean).slice(0,6);
+  const sty = l => style ? `${l}, ${style}` : l;
+
+  if (mode === "image"){
+    if (!lines.length) return toast("कृपया प्रॉम्प्ट लिखें");
+    const n = +$("#count").value, r = [...refs];
+    $("#prompt").value = ""; autoGrow();
+    const jobs = []; for (const l of lines) for (let i=0;i<n;i++) jobs.push({ prompt: sty(l), refs: r, ratio, model });
+    // Nano Banana runs in parallel (2 at a time); Pollinations queues itself
+    const q = [...jobs]; await Promise.all([0,1].map(async()=>{ while(q.length) await generateImage(q.shift()); }));
+    return;
+  }
+
   let jobs = [];
   if (mode === "text"){
-    const lines = raw.split("\n").map(s=>s.trim()).filter(Boolean).slice(0,6);
     if (!lines.length) return toast("कृपया प्रॉम्प्ट लिखें");
-    jobs = lines.map(l=>({ prompt: style ? `${l}, ${style}` : l }));
+    jobs = lines.map(l=>({ prompt: sty(l), speech: dialogueOf(l) }));
+  } else if (mode === "ingr"){
+    if (!refs.length) return toast("कम से कम 1 ingredient फोटो जोड़ें");
+    if (!lines.length) return toast("लिखें कि इन ingredients से क्या होना चाहिए");
+    jobs = lines.map(l=>({ prompt: sty(l), refs: [...refs], speech: dialogueOf(l) }));
   } else {
-    if (!frames.length) return toast("कृपया कम से कम 1 फोटो जोड़ें");
-    const base = raw || "make this image come alive, smooth cinematic camera motion";
-    jobs = frames.map(f=>({ prompt: base, image: f }));
+    if (!firstF) return toast("पहला फ्रेम जोड़ें");
+    const base = lines[0] || "make this image come alive, smooth cinematic camera motion";
+    jobs = [{ prompt: sty(base), image: firstF, last: lastF, speech: dialogueOf(base) }];
   }
   $("#prompt").value = ""; autoGrow();
-  // run sequentially (free GPU queues one at a time per user)
   const results = [];
-  for (const j of jobs){ results.push(await generateOne({ ...j, ratio, dur, model })); }
+  for (const j of jobs){ results.push(await generateVideo({ ...j, ratio, dur, model, sound, voice })); }
   const ok = results.filter(r=>r.status==="done");
-  if (autojoin && ok.length > 1){
-    await makeJoin(ok, ratio, "", null);
-  }
+  if (autojoin && ok.length > 1) await makeJoin(ok, ratio, "", null);
 }
 
 async function makeJoin(list, ratio, caption, audioFile){
-  const it = { id: ++idc, prompt: (caption ? caption+" • " : "") + `${list.length} सीन जोड़े गए`, ratio, status: "run", msg: "सीन जोड़े जा रहे हैं…", modelName: "Scene Builder", kind: "join", autoplay: true };
-  items.push(it); render();
+  const it = newItem({ type: "video", prompt: (caption ? caption+" • " : "") + `${list.length} सीन जोड़े गए`, ratio, msg: "सीन जोड़े जा रहे हैं…", modelName: "Scene Builder", kind: "join", autoplay: true });
   try{
     it.blob = await joinClips(list, { ratio, caption, audioFile }, p=>{ const m=`सीन जोड़े जा रहे हैं… ${Math.round(p*100)}% (टैब खुला रखें)`; if(m!==it.msg){it.msg=m;render();} });
     it.status = "done"; it.msg="";
@@ -547,54 +897,195 @@ async function makeJoin(list, ratio, caption, audioFile){
 }
 
 $("#joinBtn").onclick = async ()=>{
-  const sel = items.filter(i=>i.sel && i.status==="done");
+  const sel = items.filter(i=>i.sel && i.status==="done" && i.type==="video");
   if (!sel.length) return;
   const ratio = sel[0].ratio;
   sel.forEach(i=>i.sel=false); render();
   await makeJoin(sel, ratio, $("#caption").value.trim(), $("#audioIn").files[0]||null);
 };
 $("#audioIn").onchange = ()=>{ $("#audName").textContent = $("#audioIn").files[0]?.name.slice(0,22) || "आवाज़/म्यूज़िक"; };
-$("#selAll").onclick = ()=>{ const all = items.filter(i=>i.status==="done"); const v = !all.every(i=>i.sel); all.forEach(i=>i.sel=v); render(); };
+$("#selAll").onclick = ()=>{ const all = items.filter(i=>i.status==="done" && i.type==="video"); const v = !all.every(i=>i.sel); all.forEach(i=>i.sel=v); render(); };
+document.querySelectorAll("#filt button").forEach(b=>b.onclick=()=>{ document.querySelectorAll("#filt button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); filter=b.dataset.f; items.forEach(i=>i.el && (i.el._state=null)); render(); });
 
 // ---------- Composer UI ----------
-document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".mode").forEach(x=>x.classList.remove("on")); b.classList.add("on"); mode=b.dataset.m;
-  $("#frames").style.display = mode==="image" ? "flex" : "none";
-  $("#prompt").placeholder = mode==="image" ? "फोटो में क्या होना चाहिए? (जैसे: लड़की मुस्कुराती है, बाल हवा में उड़ते हैं)" : "एक वीडियो का वर्णन करें… (हर लाइन एक सीन)";
-  fillModels();
-});
-$("#addFrame").onclick = ()=>$("#fileIn").click();
-$("#fileIn").onchange = ()=>{ addFrames($("#fileIn").files); $("#fileIn").value=""; };
-function addFrames(fs){
-  for (const f of [...fs].filter(f=>f.type.startsWith("image/"))){ if (frames.length>=6) break; frames.push(f); }
-  drawFrames();
+const PH = {
+  image: "इमेज का वर्णन करें… रेफरेंस फोटो जोड़कर लिखें क्या बनाना/बदलना है",
+  text: "वीडियो का वर्णन करें… (हर लाइन एक सीन, डायलॉग \"कोट\" में)",
+  ingr: "इन ingredients से क्या होना चाहिए? (जैसे: यह लड़की इस गाँव की गली में दौड़ती है)",
+  frames: "फ्रेम में क्या मोशन होना चाहिए? (जैसे: लड़की मुस्कुराती है, कैमरा धीरे-धीरे पास आता है)",
+};
+const HINT = {
+  image: "फ्री मॉडल: सिर्फ प्रॉम्प्ट से इमेज/कैरेक्टर • 🍌 Nano Banana: 6 तक रेफरेंस फोटो, फोटो एडिट • 🎨 में 👤 Character चुनें",
+  text: "Shift+Enter = नया सीन • बोलने वाली लाइन \"डबल कोट\" में लिखें, जैसे: लड़की कहती है \"मुझे घर जाना है\"",
+  ingr: "🧩 3 तक ingredients (कैरेक्टर/जगह/चीज़) • हर लाइन = एक सीन, सभी में वही ingredients",
+  frames: "🎞️ आखिरी फ्रेम सिर्फ Veo मॉडल इस्तेमाल करते हैं • फ्री मॉडल पहले फ्रेम से मोशन बनाते हैं",
+};
+function setMode(m){
+  mode = m;
+  document.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on", x.dataset.m===m));
+  if (m==="ingr" && refs.length>LIMITS.ingr) refs = refs.slice(0,LIMITS.ingr);
+  $("#refs").style.display = m==="text" ? "none" : "flex";
+  $("#prompt").placeholder = PH[m]; $("#hint").textContent = HINT[m];
+  $("#durChip").classList.toggle("hide", m==="image");
+  $("#soundChip").classList.toggle("hide", m==="image"); $("#voiceChip").classList.toggle("hide", m==="image");
+  $("#joinChip").classList.toggle("hide", m==="image" || m==="frames");
+  $("#countChip").classList.toggle("hide", m!=="image");
+  fillModels(); drawRefs();
 }
-function drawFrames(){
-  document.querySelectorAll(".frame").forEach(e=>e.remove());
-  frames.forEach((f,i)=>{ const im=document.createElement("img"); im.className="frame"; im.src=URL.createObjectURL(f); im.title="हटाने के लिए क्लिक करें"; im.onclick=()=>{frames.splice(i,1);drawFrames();}; $("#frames").insertBefore(im,$("#addFrame")); });
+let pickTarget = "refs";
+function pick(target){ pickTarget = target; $("#fileIn").multiple = target==="refs"; $("#fileIn").click(); }
+$("#fileIn").onchange = ()=>{ addFiles($("#fileIn").files); $("#fileIn").value=""; };
+function addFiles(fs){
+  const imgs = [...fs].filter(f=>f.type.startsWith("image/"));
+  if (!imgs.length) return;
+  if (mode==="frames"){
+    if (pickTarget==="last") lastF = imgs[0];
+    else { firstF = imgs[0]; if (imgs[1] && !lastF) lastF = imgs[1]; }
+  } else {
+    const lim = LIMITS[mode] || 6;
+    for (const f of imgs){ if (refs.length>=lim){ toast(`ज़्यादा से ज़्यादा ${lim} फोटो`); break; } refs.push(f); }
+  }
+  drawRefs();
 }
+function slot(file, label, onAdd, onDel){
+  const b = document.createElement("button"); b.className = "slot" + (file?" filled":"");
+  if (file){ b.innerHTML = `<img alt=""><span class="x">✕</span>${label?`<span class="lbl">${label}</span>`:""}`; b.querySelector("img").src = URL.createObjectURL(file); b.onclick = onDel; b.title="हटाने के लिए क्लिक करें"; }
+  else { b.innerHTML = `+${label?`<span class="lbl">${label}</span>`:""}`; b.onclick = onAdd; b.title="फोटो जोड़ें"; }
+  return b;
+}
+function drawRefs(){
+  const box = $("#refs"); box.innerHTML = "";
+  if (mode==="text") return;
+  if (mode==="frames"){
+    box.append(slot(firstF, "पहला", ()=>pick("first"), ()=>{ firstF=null; drawRefs(); }));
+    const ar = document.createElement("span"); ar.className="arrow"; ar.textContent="→"; box.append(ar);
+    box.append(slot(lastF, "आखिरी", ()=>pick("last"), ()=>{ lastF=null; drawRefs(); }));
+    const n = document.createElement("span"); n.className="refnote"; n.textContent = "आखिरी फ्रेम वैकल्पिक है"; box.append(n);
+    return;
+  }
+  const lim = LIMITS[mode] || 6;
+  refs.forEach((f,i)=>box.append(slot(f, mode==="ingr"?`#${i+1}`:"", null, ()=>{ refs.splice(i,1); drawRefs(); })));
+  if (refs.length < lim) box.append(slot(null, refs.length?"":"रेफरेंस", ()=>pick("refs")));
+  const n = document.createElement("span"); n.className="refnote";
+  n.textContent = mode==="image" ? (refs.length ? `${refs.length}/${lim} रेफरेंस — प्रॉम्प्ट में लिखें इनका क्या करना है` : "वैकल्पिक: कैरेक्टर/प्रोडक्ट/स्टाइल की फोटो जोड़ें")
+                                 : `${refs.length}/${lim} ingredients — कैरेक्टर, जगह या चीज़ें`;
+  box.append(n);
+}
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+$("#model").onchange = ()=>store.set("fvg_model_"+mode, $("#model").value);
 document.addEventListener("dragover", e=>e.preventDefault());
-document.addEventListener("drop", e=>{ e.preventDefault(); if (e.dataTransfer.files.length){ document.querySelector('.mode[data-m=image]').click(); addFrames(e.dataTransfer.files); } });
+document.addEventListener("drop", e=>{ e.preventDefault(); if (e.dataTransfer.files.length){ if (mode==="text") setMode("ingr"); pickTarget="refs"; addFiles(e.dataTransfer.files); } });
+document.addEventListener("paste", e=>{ const fs=[...(e.clipboardData?.files||[])]; if (fs.length){ if (mode==="text") setMode("ingr"); pickTarget="refs"; addFiles(fs); } });
 const ta = $("#prompt");
 function autoGrow(){ ta.style.height="auto"; ta.style.height=Math.min(180, ta.scrollHeight)+"px"; }
 ta.addEventListener("input", autoGrow);
 ta.addEventListener("keydown", e=>{ if (e.key==="Enter" && !e.shiftKey){ e.preventDefault(); onGenerate(); } });
 $("#goBtn").onclick = onGenerate;
+$("#viewer").onclick = ()=>$("#viewer").classList.remove("show");
 
 const IDEAS = [
-  "A beautiful Indian village at sunrise, river and birds flying",
-  "एक छोटी लड़की बारिश में कागज़ की नाव चलाती है",
-  "Futuristic Mumbai city at night, neon lights, flying cars",
-  "A lion walking slowly in golden savanna grass\nThe lion roars at the camera\nSunset silhouette of the lion on a rock",
+  { m:"image", t:"A young Indian woman in a red saree standing in a mustard field, golden hour, portrait" },
+  { m:"image", t:"एक 25 साल का गाँव का लड़का, सफ़ेद कुर्ता, मुस्कुराता चेहरा", s:"character" },
+  { m:"text",  t:"A beautiful Indian village at sunrise, river and birds flying" },
+  { m:"text",  t:"एक बूढ़ी दादी चूल्हे पर रोटी बनाते हुए मुस्कुराकर कहती है \"बेटा, खाना तैयार है\"" },
+  { m:"text",  t:"एक छोटी लड़की बारिश में कागज़ की नाव चलाती है" },
+  { m:"text",  t:"A lion walking slowly in golden savanna grass\nThe lion roars at the camera\nSunset silhouette of the lion on a rock" },
 ];
-$("#ideas").innerHTML = IDEAS.map(i=>`<button class="idea">${i.replace(/\n/g," ⏎ ")}</button>`).join("");
-document.querySelectorAll(".idea").forEach((b,i)=>b.onclick=()=>{ ta.value=IDEAS[i]; autoGrow(); ta.focus(); });
+$("#ideas").innerHTML = IDEAS.map(i=>`<button class="idea">${i.s?"👤 ":i.m==="image"?"🎨 ":""}${i.t.replace(/\n/g," ⏎ ")}</button>`).join("");
+document.querySelectorAll(".idea").forEach((b,i)=>b.onclick=()=>{ setMode(IDEAS[i].m); ta.value=IDEAS[i].t; if (IDEAS[i].s){ const o=[...$("#style").options].find(o=>o.value.startsWith(IDEAS[i].s)); if(o) $("#style").value=o.value; } autoGrow(); ta.focus(); });
+
+// ---------- Accounts (Firebase Auth — free Spark plan) ----------
+// Firebase console → Project settings → Your apps → Web app → config. Empty apiKey = login turned off.
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA6b7f7SpT5wxKNrWn0ctnrL9TG_zmqIJM",
+  authDomain: "freevideogenerator-8880d.firebaseapp.com",
+  projectId: "freevideogenerator-8880d",
+  storageBucket: "freevideogenerator-8880d.firebasestorage.app",
+  messagingSenderId: "53203673615",
+  appId: "1:53203673615:web:d3ae8e443e0b1e31c5397a",
+};
+const FB_VER = "10.12.2";
+let fbAuth = null, fb = null, user = null, authTab = "login";
+async function initAuth(){
+  if (!FIREBASE_CONFIG.apiKey) return;
+  try{
+    const app = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app.js`);
+    fb = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-auth.js`);
+    fbAuth = fb.getAuth(app.initializeApp(FIREBASE_CONFIG));
+    fbAuth.languageCode = "hi";
+    $("#userBtn").style.display = "";
+    fb.onAuthStateChanged(fbAuth, u=>{ user = u; drawUser(); if (u && $("#authForms").style.display !== "none") closeAuth(); });
+  }catch(e){ console.warn("auth", e); }
+}
+function drawUser(){
+  const b = $("#userBtn");
+  if (!user){ b.innerHTML = "👤 Login"; return; }
+  const nm = user.displayName || user.email || "User";
+  b.innerHTML = `<span class="avatar">${user.photoURL ? `<img src="${user.photoURL}" alt="" referrerpolicy="no-referrer">` : nm[0].toUpperCase()}</span>`;
+  b.title = nm;
+}
+function openAuth(){
+  const logged = !!user;
+  $("#authForms").style.display = logged ? "none" : ""; $("#authUser").style.display = logged ? "" : "none";
+  if (logged){ $("#uInfo").textContent = `${user.displayName || ""} ${user.email ? "• " + user.email : ""}`.trim(); }
+  $("#aErr").textContent = ""; $("#authDrawer").classList.add("show");
+}
+function closeAuth(){ $("#authDrawer").classList.remove("show"); }
+function requireLogin(){ if (!fbAuth || user) return true; openAuth(); toast("इमेज/वीडियो बनाने के लिए पहले free अकाउंट से लॉगिन करें"); return false; }
+function setAuthTab(t){
+  authTab = t;
+  document.querySelectorAll(".tabs2 button").forEach(b=>b.classList.toggle("on", b.dataset.t===t));
+  $("#nameRow").style.display = $("#agreeRow").style.display = t==="signup" ? "" : "none";
+  $("#aSubmit").textContent = t==="signup" ? "अकाउंट बनाएं" : "Login";
+  $("#aPass").autocomplete = t==="signup" ? "new-password" : "current-password";
+  $("#aErr").textContent = "";
+}
+const AUTH_ERR = {
+  "auth/invalid-email": "ईमेल सही नहीं है", "auth/missing-password": "पासवर्ड डालें", "auth/weak-password": "पासवर्ड कम से कम 6 अक्षर का रखें",
+  "auth/email-already-in-use": "इस ईमेल से पहले से अकाउंट है — Login करें", "auth/invalid-credential": "ईमेल या पासवर्ड गलत है",
+  "auth/wrong-password": "पासवर्ड गलत है", "auth/user-not-found": "इस ईमेल से कोई अकाउंट नहीं है", "auth/too-many-requests": "बहुत ज़्यादा कोशिशें — थोड़ी देर बाद करें",
+  "auth/popup-closed-by-user": "Google विंडो बंद हो गई", "auth/popup-blocked": "Popup ब्लॉक हो गया — ब्राउज़र में popup allow करें",
+  "auth/unauthorized-domain": "यह डोमेन Firebase में जोड़ा नहीं गया है", "auth/network-request-failed": "इंटरनेट कनेक्शन देखें",
+};
+const authErr = e => AUTH_ERR[e?.code] || ("दिक्कत: " + (e?.code || e?.message || e));
+document.querySelectorAll(".tabs2 button").forEach(b=>b.onclick=()=>setAuthTab(b.dataset.t));
+$("#gBtn").onclick = async ()=>{ try{ await fb.signInWithPopup(fbAuth, new fb.GoogleAuthProvider()); toast("✅ लॉगिन हो गया"); }catch(e){ $("#aErr").textContent = authErr(e); } };
+$("#aSubmit").onclick = async ()=>{
+  const email = $("#aEmail").value.trim(), pass = $("#aPass").value, name = $("#aName").value.trim();
+  $("#aErr").textContent = "";
+  try{
+    if (authTab === "signup"){
+      if (!$("#aAgree").checked) return $("#aErr").textContent = "Terms और Privacy Policy से सहमति ज़रूरी है";
+      const c = await fb.createUserWithEmailAndPassword(fbAuth, email, pass);
+      if (name) await fb.updateProfile(c.user, { displayName: name });
+      fb.sendEmailVerification(c.user).catch(()=>{});
+      user = fbAuth.currentUser; drawUser(); closeAuth(); toast("✅ अकाउंट बन गया! ईमेल verify करने का लिंक भेजा गया है", 6000);
+    } else {
+      await fb.signInWithEmailAndPassword(fbAuth, email, pass); toast("✅ लॉगिन हो गया");
+    }
+  }catch(e){ $("#aErr").textContent = authErr(e); }
+};
+$("#aPass").addEventListener("keydown", e=>{ if (e.key==="Enter") $("#aSubmit").click(); });
+$("#aForgot").onclick = async ()=>{
+  const email = $("#aEmail").value.trim(); if (!email) return $("#aErr").textContent = "पहले ऊपर अपना ईमेल लिखें";
+  try{ await fb.sendPasswordResetEmail(fbAuth, email); $("#aErr").textContent = ""; toast("📧 पासवर्ड रीसेट लिंक ईमेल पर भेजा गया", 6000); }catch(e){ $("#aErr").textContent = authErr(e); }
+};
+$("#userBtn").onclick = openAuth;
+$("#uClose").onclick = closeAuth;
+$("#uLogout").onclick = async ()=>{ try{ await fb.signOut(fbAuth); }catch{} closeAuth(); toast("Logout हो गया"); };
+$("#authDrawer").onclick = e=>{ if (e.target.id==="authDrawer") closeAuth(); };
+initAuth();
 
 // settings
-$("#setBtn").onclick = ()=>{ $("#hfToken").value = store.get("nvg_hf")||""; $("#drawer").classList.add("show"); };
+$("#setBtn").onclick = ()=>{ $("#hfToken").value = store.get("nvg_hf")||""; refreshPuterStatus(); $("#drawer").classList.add("show"); };
 $("#drawer").onclick = e=>{ if (e.target.id==="drawer") $("#drawer").classList.remove("show"); };
+document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ $("#drawer").classList.remove("show"); closeAuth(); $("#viewer").classList.remove("show"); } });
 $("#saveTok").onclick = ()=>{ const v=$("#hfToken").value.trim(); store.set("nvg_hf", v||null); $("#drawer").classList.remove("show"); toast(v?"✅ टोकन सेव हुआ":"टोकन हटाया गया"); };
 $("#clrTok").onclick = ()=>{ store.set("nvg_hf", null); $("#hfToken").value=""; toast("टोकन हटाया गया"); };
+$("#puterIn").onclick = async ()=>{ try{ await puter.auth.signIn(); puterCreditOut = false; toast("✅ Puter लॉगिन हो गया"); }catch{ toast("लॉगिन नहीं हुआ"); } refreshPuterStatus(); };
+$("#puterOut").onclick = ()=>{ try{ puter.auth.signOut(); }catch{} refreshPuterStatus(); toast("Logout हो गया"); };
+
+setMode("text");
 </script>
 </body>
 </html>
