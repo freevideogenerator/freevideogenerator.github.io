@@ -142,6 +142,17 @@ canvas#work{display:none}
 .auth .agree{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--muted);margin-top:8px}
 .auth .agree input{width:auto;margin:3px 0 0}
 /* footer */
+.learn{margin-top:70px;max-width:1000px;margin-left:auto;margin-right:auto}
+.learn h2{font-weight:500;font-size:24px;margin:0 0 6px}
+.learn>p{color:var(--muted);margin:0 0 18px}
+.guides{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.guides a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--text);text-decoration:none;font-size:15px;line-height:1.5}
+.guides a:hover{border-color:#3d3d45}
+.guides a small{display:block;color:var(--accent);font-size:11.5px;margin-bottom:4px}
+.faq{margin-top:40px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:500;font-size:15.5px}
+.faq details p{color:var(--muted);font-size:14.5px;line-height:1.7;margin:10px 0 0}
 .foot{margin-top:60px;padding:22px 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:13px;color:var(--muted)}
 .foot a{color:var(--muted);text-decoration:none}.foot a:hover{color:var(--text)}
 @media(max-width:600px){.wrap{padding:16px 12px 380px}.joinbar{bottom:330px}.top{padding:10px 12px;gap:8px}.brand{font-size:16px;gap:8px}.brand .mark{width:26px;height:26px}
@@ -154,6 +165,7 @@ canvas#work{display:none}
 <div class="top">
   <div class="brand"><div class="mark"></div>FreeVideoGenerator</div>
   <div class="sp"></div>
+  <a class="iconbtn" href="blog/" style="text-decoration:none;color:inherit">📚<span class="t"> गाइड्स</span></a>
   <span class="pill free">100% Free</span>
   <span class="pill">🍌 Nano Banana • Veo • Wan • LTX</span>
   <button class="iconbtn" id="setBtn">⚙️<span class="t"> Settings</span></button>
@@ -182,8 +194,19 @@ canvas#work{display:none}
     <div class="grid" id="grid"></div>
   </section>
 
+  <section class="learn">
+    <h2>📚 AI वीडियो बनाना सीखें</h2>
+    <p>शुरुआत करने वालों के लिए आसान हिंदी गाइड्स — प्रॉम्प्ट, कैरेक्टर, आवाज़ और YouTube के नियम।</p>
+    <div class="guides"><a href="blog/free-ai-video-kaise-banaye.html"><small>शुरुआत</small>AI से फ्री में वीडियो कैसे बनाएं – शुरुआत करने वालों के लिए पूरी गाइड</a><a href="blog/ai-video-prompt-kaise-likhe.html"><small>प्रॉम्प्ट</small>AI वीडियो के लिए अच्छा प्रॉम्प्ट कैसे लिखें – फॉर्मूला और 20 उदाहरण</a><a href="blog/consistent-character-kaise-banaye.html"><small>कैरेक्टर</small>AI में एक जैसा कैरेक्टर कैसे बनाएं – हर सीन में वही चेहरा</a><a href="blog/youtube-shorts-instagram-reels-ai-video.html"><small>Shorts/Reels</small>YouTube Shorts और Instagram Reels के लिए AI वीडियो – साइज़, हुक और एडिटिंग टिप्स</a><a href="blog/ai-video-me-hindi-awaz-kaise-jode.html"><small>आवाज़</small>AI वीडियो में हिंदी आवाज़, डायलॉग और साउंड इफ़ेक्ट कैसे जोड़ें</a><a href="blog/text-to-video-vs-image-to-video.html"><small>मोड</small>Text to Video, Image to Video, Ingredients और Frames – कब कौन-सा मोड इस्तेमाल करें</a><a href="blog/hugging-face-token-kaise-banaye.html"><small>सेटिंग</small>Free Hugging Face टोकन कैसे बनाएं और फ्री AI की रोज़ की लिमिट कैसे बढ़ाएं</a><a href="blog/ai-video-youtube-monetization-niyam.html"><small>कमाई</small>AI से बने वीडियो YouTube पर मोनेटाइज़ हो सकते हैं? नियम और ज़रूरी सावधानियाँ</a></div>
+    <div class="faq">
+      <h2>अक्सर पूछे जाने वाले सवाल</h2>
+      <details><summary>क्या FreeVideoGenerator सच में फ्री है?</summary><p>हाँ। इमेज, वीडियो और हिंदी आवाज़ बनाने के मुख्य मॉडल फ्री और ओपन हैं और Hugging Face के फ्री GPU पर चलते हैं। फ्री GPU की रोज़ की सीमा होती है; सीमा खत्म होने पर वेबसाइट अपने-आप दूसरे फ्री विकल्प पर चली जाती है। Nano Banana और Veo वैकल्पिक हैं और Puter अकाउंट के फ्री क्रेडिट से चलते हैं।</p></details><details><summary>वीडियो कितना लंबा बन सकता है?</summary><p>फ्री मॉडल एक बार में 2 से 5 सेकंड का सीन बनाते हैं। हर नई लाइन एक नया सीन है, और सारे सीन जोड़कर 15–60 सेकंड का पूरा वीडियो बनाया जा सकता है।</p></details><details><summary>क्या वीडियो में हिंदी आवाज़ आती है?</summary><p>हाँ। प्रॉम्प्ट में किरदार का डायलॉग डबल कोट में लिखें, जैसे: दादी कहती है "बेटा, खाना तैयार है"। वेबसाइट उसे महिला या पुरुष की हिंदी आवाज़ में बोलती है और साथ में AI साउंड इफ़ेक्ट भी जोड़ सकती है।</p></details><details><summary>क्या हर सीन में एक ही किरदार रख सकते हैं?</summary><p>हाँ। पहले Image मोड में 👤 Character स्टाइल से किरदार बनाएं, फिर उसे Nano Banana या Ingredients to Video में रेफरेंस की तरह इस्तेमाल करें।</p></details><details><summary>बनाए गए वीडियो कहाँ सेव होते हैं?</summary><p>वीडियो आपके ब्राउज़र में बनते हैं और हमारे सर्वर पर सेव नहीं होते। पेज बंद करने से पहले ⬇️ Download दबाकर MP4 सेव कर लें।</p></details><details><summary>क्या इन वीडियो को YouTube पर डाल सकते हैं?</summary><p>हाँ, लेकिन प्लेटफ़ॉर्म के नियम मानें – कॉपीराइट वाला म्यूज़िक न लगाएं, असली लोगों के फ़र्ज़ी वीडियो न बनाएं, और असली-जैसा AI कंटेंट होने पर उसकी जानकारी दें।</p></details>
+    </div>
+  </section>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "क्या FreeVideoGenerator सच में फ्री है?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ। इमेज, वीडियो और हिंदी आवाज़ बनाने के मुख्य मॉडल फ्री और ओपन हैं और Hugging Face के फ्री GPU पर चलते हैं। फ्री GPU की रोज़ की सीमा होती है; सीमा खत्म होने पर वेबसाइट अपने-आप दूसरे फ्री विकल्प पर चली जाती है। Nano Banana और Veo वैकल्पिक हैं और Puter अकाउंट के फ्री क्रेडिट से चलते हैं।"}}, {"@type": "Question", "name": "वीडियो कितना लंबा बन सकता है?", "acceptedAnswer": {"@type": "Answer", "text": "फ्री मॉडल एक बार में 2 से 5 सेकंड का सीन बनाते हैं। हर नई लाइन एक नया सीन है, और सारे सीन जोड़कर 15–60 सेकंड का पूरा वीडियो बनाया जा सकता है।"}}, {"@type": "Question", "name": "क्या वीडियो में हिंदी आवाज़ आती है?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ। प्रॉम्प्ट में किरदार का डायलॉग डबल कोट में लिखें, जैसे: दादी कहती है \"बेटा, खाना तैयार है\"। वेबसाइट उसे महिला या पुरुष की हिंदी आवाज़ में बोलती है और साथ में AI साउंड इफ़ेक्ट भी जोड़ सकती है।"}}, {"@type": "Question", "name": "क्या हर सीन में एक ही किरदार रख सकते हैं?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ। पहले Image मोड में 👤 Character स्टाइल से किरदार बनाएं, फिर उसे Nano Banana या Ingredients to Video में रेफरेंस की तरह इस्तेमाल करें।"}}, {"@type": "Question", "name": "बनाए गए वीडियो कहाँ सेव होते हैं?", "acceptedAnswer": {"@type": "Answer", "text": "वीडियो आपके ब्राउज़र में बनते हैं और हमारे सर्वर पर सेव नहीं होते। पेज बंद करने से पहले ⬇️ Download दबाकर MP4 सेव कर लें।"}}, {"@type": "Question", "name": "क्या इन वीडियो को YouTube पर डाल सकते हैं?", "acceptedAnswer": {"@type": "Answer", "text": "हाँ, लेकिन प्लेटफ़ॉर्म के नियम मानें – कॉपीराइट वाला म्यूज़िक न लगाएं, असली लोगों के फ़र्ज़ी वीडियो न बनाएं, और असली-जैसा AI कंटेंट होने पर उसकी जानकारी दें।"}}]}</script>
+
   <footer class="foot">
-    <a href="about.html">About Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="contact.html">Contact Us</a>
+    <a href="blog/">Blog / गाइड्स</a><a href="about.html">About Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="contact.html">Contact Us</a>
     <span>© 2026 FreeVideoGenerator</span>
   </footer>
 </div>
