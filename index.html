@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DVDT3MBN9K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-DVDT3MBN9K');
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FreeVideoGenerator – Free AI Video Studio</title>
@@ -175,7 +167,7 @@ canvas#work{display:none}
   <div class="sp"></div>
   <a class="iconbtn" href="blog/" style="text-decoration:none;color:inherit">📚<span class="t"> गाइड्स</span></a>
   <span class="pill free">100% Free</span>
-  <span class="pill">🍌 Nano Banana • Veo • Wan • LTX</span>
+  <span class="pill">🍌 Nano Banana • Veo • Kling • Seedance • LTX-2 • Wan</span>
   <button class="iconbtn" id="setBtn">⚙️<span class="t"> Settings</span></button>
   <button class="iconbtn userbtn" id="userBtn" style="display:none">👤 Login</button>
 </div>
@@ -189,6 +181,7 @@ canvas#work{display:none}
       <div><b>🎨 Image / Character</b>फ्री Z-Image, FLUX, Qwen से प्रॉम्प्ट से इमेज और कैरेक्टर। 🍌 Nano Banana से रेफरेंस फोटो + एडिट।</div>
       <div><b>✍️ Text → Video 🔊</b>प्रॉम्प्ट से वीडियो — AI साउंड इफ़ेक्ट और हिंदी आवाज़ के साथ। "कोट" में लिखा डायलॉग बोला जाएगा।</div>
       <div><b>🧩 Ingredients → Video</b>प्रॉम्प्ट + 3 तक रेफरेंस (कैरेक्टर, जगह, चीज़) → वही चीज़ें वीडियो में।</div>
+      <div><b>🆕 18 वीडियो मॉडल</b>LTX-2 (आवाज़ के साथ), Ovi (बोलता वीडियो), Wan 2.2 Pro, CogVideoX, Stable Video Diffusion — फ्री। Kling, Seedance, Hailuo, Wan 2.7 — Puter क्रेडिट से।</div>
       <div><b>🎞️ Frames → Video</b>पहला फ्रेम (और चाहें तो आखिरी फ्रेम) दें → बीच का मोशन AI बनाएगा।</div>
     </div>
   </section>
@@ -336,10 +329,24 @@ const MODELS = {
   ltx:   { name: "LTX-Video (तेज़, फ्री)", modes: ["text","frames"], space: "Lightricks/ltx-video-distilled" },
   wan22: { name: "Wan 2.2 Fast (फ्री)", modes: ["text","ingr","frames"], space: "zerogpu-aoti/wan2-2-fp8da-aoti-faster" },
   wan21: { name: "Wan 2.1 Fast (फ्री)", modes: ["text","ingr","frames"], space: "multimodalart/wan2-1-fast" },
+  // ---- नए फ्री मॉडल (Hugging Face ZeroGPU) ----
+  ltx2t: { name: "🆕 LTX-2 Turbo + आवाज़ (फ्री)", modes: ["text","ingr","frames"], space: "alexnasa/ltx-2-TURBO", audio: true },
+  ltx23: { name: "🆕 LTX-2.3 + आवाज़ (फ्री)", modes: ["text","ingr","frames"], space: "Lightricks/LTX-2-3", audio: true },
+  ovi:   { name: "🆕 Ovi – बोलता वीडियो (फ्री)", modes: ["text","ingr","frames"], space: "alexnasa/Ovi", audio: true },
+  wan22p:{ name: "🆕 Wan 2.2 Pro (फ्री)", modes: ["text","ingr","frames"], space: "r3gm/wan2-2-fp8da-aoti-preview" },
+  wanflf:{ name: "🆕 Wan 2.2 पहला→आखिरी फ्रेम (फ्री)", modes: ["frames"], space: "multimodalart/wan-2-2-first-last-frame" },
+  cog5b: { name: "🆕 CogVideoX-5B (फ्री)", modes: ["text","frames"], space: "zai-org/CogVideoX-5B-Space" },
+  cog2b: { name: "🆕 CogVideoX-2B (फ्री, सिर्फ टेक्स्ट)", modes: ["text"], space: "zai-org/CogVideoX-2B-Space" },
+  svd:   { name: "🆕 Stable Video Diffusion (फ्री)", modes: ["text","ingr","frames"], space: "mediasynthesismuseum/stable-video-diffusion" },
   motion:{ name: "Pollinations + Motion (हमेशा फ्री)", modes: ["text","ingr","frames"] },
+  // ---- नए Puter मॉडल (Puter के free क्रेडिट से) ----
+  seedance:{ name: "🆕 Seedance 2.0 Mini (Puter)", puter: "seedance-2-0-mini", modes: ["text","ingr","frames"], secs: [4,12] },
+  kling: { name: "🆕 Kling 2.5 Turbo (Puter)", puter: "kling-2.5-turbo", modes: ["text","frames"], secs: [5,5] },
+  hailuo:{ name: "🆕 Hailuo 02 (Puter)", puter: "minimax-hailuo-02", modes: ["text","frames"], secs: [6,6] },
+  wan27: { name: "🆕 Wan 2.7 (Puter)", puter: j => j.refs?.length ? "wan-ai/wan2.7-r2v" : j.image ? "wan-ai/wan2.7-i2v" : "wan-ai/wan2.7-t2v", modes: ["text","ingr","frames"], secs: [5,5] },
 };
 // Auto: free models first. Ingredients: Nano Banana composes a start frame, then free video model animates it.
-const AUTO_ORDER = { text: ["ltx","wan22","wan21","motion"], frames: ["wan22","ltx","wan21","motion"], ingr: ["wan22","wan21","ltx","motion"] };
+const AUTO_ORDER = { text: ["ltx","ltx2t","wan22","wan22p","cog5b","wan21","motion"], frames: ["wan22","ltx2t","wan22p","ltx","svd","wan21","motion"], ingr: ["wan22","ltx2t","wan22p","wan21","ltx","motion"] };
 const NEG = "worst quality, blurry, distorted, deformed, low quality, watermark, text, static";
 const LIMITS = { image: 6, ingr: 3 };
 
@@ -389,8 +396,9 @@ async function nanoBanana(modelKey, prompt, images, ratio, st){
 }
 
 async function puterVideo(modelKey, j, st){
-  const opts = { model: MODELS[modelKey].puter, seconds: Math.max(4, Math.min(8, j.dur)), aspect_ratio: j.ratio === "1:1" ? "9:16" : j.ratio,
-    size: j.ratio === "16:9" ? "1280x720" : "720x1280", generate_audio: modelKey === "veofast" };
+  const M = MODELS[modelKey], [lo, hi] = M.secs || [4, 8];
+  const opts = { model: typeof M.puter === "function" ? M.puter(j) : M.puter, seconds: Math.max(lo, Math.min(hi, j.dur)), aspect_ratio: j.ratio === "1:1" ? "9:16" : j.ratio,
+    size: j.ratio === "16:9" ? "1280x720" : "720x1280", generate_audio: modelKey === "veofast" || modelKey === "seedance" };
   if (j.image) opts.input_reference = j.image;
   if (j.last) opts.last_frame = j.last;
   if (j.refs?.length) opts.reference_images = j.refs;
@@ -507,9 +515,64 @@ function noteQuota(msg){
 }
 
 // video engines: j = { prompt, image, last, refs, ratio, dur }
+const vdims = (r, base) => r === "9:16" ? { w: Math.round(base*9/16/32)*32, h: base } : r === "1:1" ? { w: Math.round(base*.75/32)*32, h: Math.round(base*.75/32)*32 } : { w: base, h: Math.round(base*9/16/32)*32 };
 const ENGINES = {
   veolite(j, st){ return puterVideo("veolite", j, st); },
   veofast(j, st){ return puterVideo("veofast", j, st); },
+  seedance(j, st){ return puterVideo("seedance", j, st); },
+  kling(j, st){ return puterVideo("kling", j, st); },
+  hailuo(j, st){ return puterVideo("hailuo", j, st); },
+  wan27(j, st){ return puterVideo("wan27", j, st); },
+  async ltx2t(j, st){
+    const img = await startFrame(j, st), { w, h } = vdims(j.ratio, 768);
+    st("🎬 LTX-2 Turbo वीडियो + आवाज़ बना रहा है…");
+    return { url: await runSpace(MODELS.ltx2t.space, "/generate_video", { first_frame: handle_file(img), end_frame: j.last ? handle_file(j.last) : null,
+      prompt: j.prompt, input_video: null, generation_mode: "Image-to-Video", enhance_prompt: false, seed: 10, randomize_seed: true, height: h, width: w,
+      camera_lora: "No LoRA", audio_path: null }, st) };
+  },
+  async ltx23(j, st){
+    const img = await startFrame(j, st), { w, h } = vdims(j.ratio, 1024);
+    st("🎬 LTX-2.3 वीडियो + आवाज़ बना रहा है…");
+    return { url: await runSpace(MODELS.ltx23.space, "/generate_video", { input_image: handle_file(img), prompt: j.prompt, duration: Math.min(j.dur, 5),
+      enhance_prompt: false, seed: 10, randomize_seed: true, height: h, width: w }, st) };
+  },
+  async ovi(j, st){
+    // Ovi bolne wali line <S>..<E> mein aur aawaz ka varnan <AUDCAP>..<ENDAUDCAP> mein samajhta hai
+    const speech = j.speech ? ` <S>${j.speech}<E>` : "";
+    const scene = j.prompt.replace(/["“”][^"“”]*["“”]/g, "").trim();
+    const p = `${scene}.${speech} <AUDCAP>natural ambient sound matching the scene${j.speech ? ", clear voice" : ""}<ENDAUDCAP>`;
+    const img = (j.image || j.refs?.length) ? await startFrame(j, st) : null;
+    st("🎬 Ovi बोलता हुआ वीडियो बना रहा है…");
+    const c = await getClient(MODELS.ovi.space);
+    try{ await c.predict("/start_session", {}); }catch{}
+    return { url: await runSpace(MODELS.ovi.space, "/generate_scene", { text_prompt: p, sample_steps: 20, image: img ? handle_file(img) : null }, st) };
+  },
+  async wan22p(j, st){
+    const img = await startFrame(j, st);
+    st("🎬 Wan 2.2 Pro वीडियो बना रहा है…");
+    return { url: await runSpace(MODELS.wan22p.space, "/generate_video", { input_image: handle_file(img), last_image: j.last ? handle_file(j.last) : null,
+      prompt: j.prompt, negative_prompt: NEG, duration_seconds: Math.min(j.dur, 5), steps: 6, seed: 42, randomize_seed: true }, st) };
+  },
+  async wanflf(j, st){
+    if (!j.image || !j.last) throw new Error("इस मॉडल के लिए पहला और आखिरी दोनों फ्रेम चाहिए");
+    st("🎬 Wan 2.2 पहले से आखिरी फ्रेम तक मोशन बना रहा है…");
+    return { url: await runSpace(MODELS.wanflf.space, "/generate_video", { start_image_pil: handle_file(j.image), end_image_pil: handle_file(j.last),
+      prompt: j.prompt, negative_prompt: NEG, duration_seconds: Math.min(j.dur, 5), steps: 8, seed: 42, randomize_seed: true }, st) };
+  },
+  async cog5b(j, st){
+    st("🎬 CogVideoX-5B वीडियो बना रहा है… (2–4 मिनट)");
+    return { url: await runSpace(MODELS.cog5b.space, "/generate", { prompt: j.prompt, image_input: j.image ? handle_file(j.image) : null, video_input: null,
+      video_strength: 0.8, seed_value: -1, scale_status: false, rife_status: false }, st) };
+  },
+  async cog2b(j, st){
+    st("🎬 CogVideoX-2B वीडियो बना रहा है… (2–4 मिनट)");
+    return { url: await runSpace(MODELS.cog2b.space, "/generate", { prompt: j.prompt, num_inference_steps: 50, guidance_scale: 6 }, st) };
+  },
+  async svd(j, st){
+    const img = await startFrame(j, st);
+    st("🎬 Stable Video Diffusion फोटो को चला रहा है…");
+    return { url: await runSpace(MODELS.svd.space, "/video", { image: handle_file(img), seed: 0, randomize_seed: true, motion_bucket_id: 127, fps_id: 6 }, st) };
+  },
   async ltx(j, st){
     const { w, h } = dims(j.ratio);
     const isImg = !!j.image;
@@ -723,13 +786,14 @@ async function mixVoice(videoBlob, voiceBlob, ratio, st){
 async function addSound(it, j, st){
   const want = j.sound;                       // auto | sfx | voice | none
   if (want === "none" || !it.blob) return;
-  const nativeAudio = it.usedModel === "veofast";   // Veo Fast already makes sound + speech
+  const nativeAudio = it.usedModel === "veofast" || !!MODELS[it.usedModel]?.audio;   // ye model khud aawaz banate hain
+  const nativeSpeech = it.usedModel === "veofast" || it.usedModel === "ovi";
   if (!nativeAudio && (want === "auto" || want === "sfx")){
     if (Date.now() < gpuOutUntil) toast("फ्री GPU कोटा खत्म — इस क्लिप में साउंड इफ़ेक्ट नहीं जुड़े", 5000);
     else try{ const b = await addSfx(it.blob, j.prompt, st); it.blob = b; it.url = null; it.hasAudio = true; }
     catch(e){ const m = String(e?.message||e); console.warn("sfx", m); if (isQuota(m)) noteQuota(m); toast("साउंड इफ़ेक्ट नहीं बने: " + m.slice(0,80), 5000); }
   }
-  if (!nativeAudio && j.speech && (want === "auto" || want === "voice")){
+  if (!nativeSpeech && j.speech && (want === "auto" || want === "voice")){
     try{
       st("🗣️ आवाज़ बन रही है…");
       const voice = await tts(j.speech, j.voice);
@@ -843,8 +907,10 @@ async function generateVideo(job){
   const it = newItem({ type: "video", prompt, ratio, job, modelName: MODELS[model].name });
   const tick = ticker(it);
   const kind = r?.length ? "ingr" : image ? "frames" : "text";
-  let order = model==="auto" ? AUTO_ORDER[kind] : [model];
-  if (model !== "auto" && MODELS[model].puter) order = [model, ...AUTO_ORDER[kind]];   // Veo fails → free models
+  let auto = AUTO_ORDER[kind];
+  if (kind === "frames" && last) auto = ["wanflf", ...auto];       // आखिरी फ्रेम दिया है तो पहले FLF मॉडल
+  let order = model==="auto" ? auto : [model, ...auto.filter(x=>x!==model)];   // चुना मॉडल फेल हो तो फ्री मॉडल
+  order = order.filter(m => MODELS[m].modes.includes(kind) || m === model);
   const j = { prompt, image, last, refs: r, ratio, dur, sound, speech, voice };
   let lastErr;
   try{
