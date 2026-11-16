@@ -96,6 +96,8 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 .chip select{background:transparent;border:0;outline:0;padding:7px 4px;font-size:12px;cursor:pointer;color:#e6e6ec;max-width:190px}
 .chip select option{background:#1c1c1f}
 .chip.hide{display:none}
+#gpuBar{font-size:12.5px;line-height:1.5;background:#3a2a0c;border:1px solid #6b4f16;color:#fde7b0;border-radius:14px;padding:8px 12px;margin:0 2px 10px}
+#gpuBar a{color:#fbbf24}
 .hint{font-size:11.5px;color:#6f6f78;margin:6px 8px 0}
 
 /* join bar */
@@ -220,6 +222,7 @@ canvas#work{display:none}
 </div>
 
 <div class="composer">
+  <div id="gpuBar" style="display:none"></div>
   <div class="modes">
     <button class="mode" data-m="image">🎨 Image</button>
     <button class="mode on" data-m="text">✍️ Text to Video</button>
@@ -245,7 +248,7 @@ canvas#work{display:none}
       <option value="professional portrait photo, 85mm lens, soft studio light, sharp focus">📷 Portrait</option>
       <option value="youtube thumbnail, bold dramatic composition, vivid colors, high contrast, expressive face">🖼️ Thumbnail</option>
       <option value="">No style</option></select></div>
-    <div class="chip" id="soundChip">🔊<select id="sound"><option value="auto">आवाज़ + साउंड इफ़ेक्ट</option><option value="voice">सिर्फ आवाज़ (डायलॉग)</option><option value="sfx">सिर्फ साउंड इफ़ेक्ट</option><option value="none">बिना आवाज़</option></select></div>
+    <div class="chip" id="soundChip">🔊<select id="sound"><option value="voice">आवाज़ (डायलॉग)</option><option value="auto">आवाज़ + साउंड इफ़ेक्ट (GPU लगता है)</option><option value="sfx">सिर्फ साउंड इफ़ेक्ट (GPU लगता है)</option><option value="none">बिना आवाज़</option></select></div>
     <div class="chip" id="voiceChip">🗣️<select id="voice"><option value="f">महिला आवाज़</option><option value="m">पुरुष आवाज़</option><option value="m2">पुरुष आवाज़ 2</option></select></div>
     <div class="chip" id="joinChip">🔗<select id="autojoin"><option value="1">सीन अपने-आप जोड़ें</option><option value="0">अलग-अलग क्लिप</option></select></div>
   </div>
@@ -332,18 +335,19 @@ const MODELS = {
   // ---- नए फ्री मॉडल (Hugging Face ZeroGPU) ----
   ltx2t: { name: "🆕 LTX-2 Turbo + आवाज़ (फ्री)", modes: ["text","ingr","frames"], space: "alexnasa/ltx-2-TURBO", audio: true },
   ltx23: { name: "🆕 LTX-2.3 + आवाज़ (फ्री)", modes: ["text","ingr","frames"], space: "Lightricks/LTX-2-3", audio: true },
-  ovi:   { name: "🆕 Ovi – बोलता वीडियो (फ्री)", modes: ["text","ingr","frames"], space: "alexnasa/Ovi", audio: true },
+  ovi:   { name: "🆕 Ovi – बोलता वीडियो (फ्री, ज़्यादा GPU)", modes: ["text","ingr","frames"], space: "alexnasa/Ovi", audio: true },
   wan22p:{ name: "🆕 Wan 2.2 Pro (फ्री)", modes: ["text","ingr","frames"], space: "r3gm/wan2-2-fp8da-aoti-preview" },
   wan22p2:{ name: "🆕 Wan 2.2 Pro 2 (फ्री)", modes: ["text","ingr","frames"], space: "r3gm/wan2-2-fp8da-aoti-preview2" },
   wanlt: { name: "🆕 Wan 2.2 Lightning (फ्री, तेज़)", modes: ["text","ingr","frames"], space: "Saravutw/WAN2.2_I2V_LIGHTNING_4-8step_custom" },
   wanflf:{ name: "🆕 Wan 2.2 पहला→आखिरी फ्रेम (फ्री)", modes: ["frames"], space: "multimodalart/wan-2-2-first-last-frame" },
-  cog5b: { name: "🆕 CogVideoX-5B (फ्री)", modes: ["text","frames"], space: "zai-org/CogVideoX-5B-Space" },
-  cog2b: { name: "🆕 CogVideoX-2B (फ्री, सिर्फ टेक्स्ट)", modes: ["text"], space: "zai-org/CogVideoX-2B-Space" },
+  cog5b: { name: "🆕 CogVideoX-5B (फ्री, ज़्यादा GPU)", modes: ["text","frames"], space: "zai-org/CogVideoX-5B-Space" },
+  cog2b: { name: "🆕 CogVideoX-2B (फ्री, सिर्फ टेक्स्ट, ज़्यादा GPU)", modes: ["text"], space: "zai-org/CogVideoX-2B-Space" },
   svd:   { name: "🆕 Stable Video Diffusion (फ्री)", modes: ["text","ingr","frames"], space: "mediasynthesismuseum/stable-video-diffusion" },
-  motion:{ name: "Pollinations + Motion (हमेशा फ्री)", modes: ["text","ingr","frames"] },
+  motion:{ name: "📷 फोटो + कैमरा मूवमेंट (बिना GPU)", modes: ["text","ingr","frames"] },
 };
 // Auto: free models first. Ingredients: Nano Banana composes a start frame, then free video model animates it.
-const AUTO_ORDER = { text: ["ltx","ltx2t","wan22","wan22p","cog5b","wan21","motion"], frames: ["wan22","ltx2t","wan22p","wanlt","ltx","svd","wan21","motion"], ingr: ["wan22","ltx2t","wan22p","wanlt","wan21","ltx","motion"] };
+// कम GPU खर्च वाले मॉडल पहले — ताकि रोज़ के फ्री कोटा में ज़्यादा वीडियो बनें
+const AUTO_ORDER = { text: ["ltx","wanlt","wan22","wan21","ltx2t","wan22p","motion"], frames: ["wanlt","wan22","ltx","wan21","ltx2t","wan22p","svd","motion"], ingr: ["wanlt","wan22","wan21","ltx2t","wan22p","ltx","motion"] };
 const NEG = "worst quality, blurry, distorted, deformed, low quality, watermark, text, static";
 const LIMITS = { image: 6, ingr: 3 };
 
@@ -500,16 +504,35 @@ async function startFrame(j, st){
     st("🧩 पहली रेफरेंस फोटो से वीडियो बना रहे हैं…");
     return (j.image = j.refs[0]);
   }
-  return (j.image = (await freeImage(j.prompt, j.ratio, st)).blob);
+  try{ return (j.image = await pollinationsImage(j.prompt, j.ratio, st)); }   // GPU बचाने के लिए पहले Pollinations
+  catch{ return (j.image = (await freeImage(j.prompt, j.ratio, st)).blob); }
 }
 
 // ZeroGPU quota tracking (shared by all HF models for one user/IP)
-let gpuOutUntil = 0;
+// har model kitna GPU (सेकंड) माँगता है — लगभग अनुमान; कम खर्च वाले पहले चलते हैं
+const GPU_COST = { ltx: 30, wanlt: 40, wan21: 40, wan22: 50, ltx2t: 60, wan22p: 60, wan22p2: 60, wanflf: 60, svd: 60, ltx23: 90, cog2b: 120, ovi: 160, cog5b: 180, sfx: 40 };
+let gpuOutUntil = 0, gpuLeft = Infinity;
+try{ const q = JSON.parse(store.get("fvg_gpu") || "{}"); if (q.until > Date.now()){ gpuOutUntil = q.until; gpuLeft = q.left ?? 0; } }catch{}
 function noteQuota(msg){
   const m = msg.match(/Try again in (\d+):(\d+):(\d+)/);
   const secs = m ? (+m[1]*3600 + +m[2]*60 + +m[3]) : 600;
-  gpuOutUntil = Date.now() + Math.max(secs, 300)*1000;
+  const l = msg.match(/vs\.?\s*(\d+)s left/);
+  gpuLeft = l ? +l[1] : 0;
+  gpuOutUntil = Date.now() + Math.max(secs, 120)*1000;
+  store.set("fvg_gpu", JSON.stringify({ until: gpuOutUntil, left: gpuLeft }));
+  drawGpuBar();
 }
+// कोटा खत्म हो या इस मॉडल के लिए कम बचा हो तो true
+function gpuBlocked(k){ return Date.now() < gpuOutUntil && (GPU_COST[k] || 60) > gpuLeft; }
+function drawGpuBar(){
+  const el = document.getElementById("gpuBar"); if (!el) return;
+  const ms = gpuOutUntil - Date.now();
+  if (ms <= 0){ el.style.display = "none"; gpuLeft = Infinity; return; }
+  const h = Math.floor(ms/3600000), mi = Math.floor(ms%3600000/60000);
+  el.style.display = "";
+  el.innerHTML = `⚠️ आज का फ्री GPU लगभग खत्म (${gpuLeft}s बचा) — <b>${h ? h+" घंटे " : ""}${mi} मिनट</b> बाद फिर मिलेगा। तब तक असली AI वीडियो की जगह <b>फोटो + कैमरा मूवमेंट</b> बनेगा। <a href="blog/hugging-face-token-kaise-banaye.html" target="_blank">ज़्यादा कोटा कैसे पाएं?</a>`;
+}
+setInterval(drawGpuBar, 30000);
 
 // video engines: j = { prompt, image, last, refs, ratio, dur }
 // r3gm-style Wan 2.2 spaces (same API): first frame + optional last frame
@@ -786,7 +809,7 @@ async function addSound(it, j, st){
   const nativeAudio = it.usedModel === "veofast" || !!MODELS[it.usedModel]?.audio;   // ye model khud aawaz banate hain
   const nativeSpeech = it.usedModel === "veofast" || it.usedModel === "ovi";
   if (!nativeAudio && (want === "auto" || want === "sfx")){
-    if (Date.now() < gpuOutUntil) toast("फ्री GPU कोटा खत्म — इस क्लिप में साउंड इफ़ेक्ट नहीं जुड़े", 5000);
+    if (gpuBlocked("sfx")) toast("फ्री GPU कम बचा है — इस क्लिप में साउंड इफ़ेक्ट नहीं जुड़े", 5000);
     else try{ const b = await addSfx(it.blob, j.prompt, st); it.blob = b; it.url = null; it.hasAudio = true; }
     catch(e){ const m = String(e?.message||e); console.warn("sfx", m); if (isQuota(m)) noteQuota(m); toast("साउंड इफ़ेक्ट नहीं बने: " + m.slice(0,80), 5000); }
   }
@@ -912,7 +935,7 @@ async function generateVideo(job){
   let lastErr;
   try{
     for (const m of order){
-      if (MODELS[m].space && order.length>1 && Date.now() < gpuOutUntil) continue;
+      if (MODELS[m].space && order.length>1 && gpuBlocked(m)) continue;
       if (MODELS[m].puter && puterCreditOut && m !== order[0]) continue;
       it.modelName = MODELS[m].name; it.msg = `${MODELS[m].name} से बन रहा है…`; render();
       try{
@@ -927,13 +950,13 @@ async function generateVideo(job){
         lastErr = e; const msg = String(e?.message||e);
         console.warn(m, msg);
         if (e.credit){ puterCreditOut = true; toast(msg, 6000); }
-        if (isQuota(msg)){ noteQuota(msg); if (order.length>1) toast("फ्री GPU कोटा खत्म — अगले फ्री मॉडल से बना रहे हैं (Settings में free HF टोकन डालकर ज़्यादा कोटा पाएं)", 6000); }
+        if (isQuota(msg)){ noteQuota(msg); if (order.length>1) toast(`इस मॉडल के लिए फ्री GPU कम बचा (${gpuLeft}s) — कम GPU वाले मॉडल से बना रहे हैं`, 6000); }
       }
     }
     throw lastErr || new Error("असफल");
   }catch(e){
     const msg = String(e?.message||e);
-    it.status = "error"; it.msg = isQuota(msg) ? "फ्री GPU कोटा खत्म — Settings में free HF टोकन डालें या Auto चुनें" : "बनाने में दिक्कत: " + msg.slice(0,140);
+    it.status = "error"; it.msg = isQuota(msg) ? "फ्री GPU कोटा खत्म — ऊपर लिखे समय के बाद फिर कोशिश करें, या मॉडल में ✨ Auto चुनें" : "बनाने में दिक्कत: " + msg.slice(0,140);
     return it;
   }finally{ clearInterval(tick); render(); }
 }
@@ -949,8 +972,16 @@ async function onGenerate(){
   const raw = $("#prompt").value.trim();
   const style = $("#style").value, ratio = $("#ratio").value, dur = +$("#dur").value, sound = $("#sound").value, voice = $("#voice").value;
   const autojoin = $("#autojoin").value === "1";
-  const lines = raw.split("\n").map(s=>s.trim()).filter(Boolean).slice(0,6);
-  const sty = l => style ? `${l}, ${style}` : l;
+  // ChatGPT जैसी स्क्रिप्ट साफ़ करें: **, #, टाइम ("0–3 sec:"), Title/Style वाली लाइनें
+  let extraStyle = "";
+  const lines = raw.split("\n").map(l => l.replace(/[*_#>`]+/g, "").replace(/^\s*(?:[-•]|\d+[.)])\s+/, "").trim())
+    .map(l => l.replace(/^\(?\d+\s*[–\-:]\s*\d+\s*(sec|second|s|सेकंड)?\)?\s*[:\-–]?\s*/i, "").replace(/^(scene|सीन|shot|शॉट)\s*\d*\s*[:\-–]\s*/i, "").trim())
+    .filter(l => {
+      if (!l) return false;
+      const m = l.match(/^(style|स्टाइल|look|mood)\s*[:\-–]\s*(.+)/i); if (m){ extraStyle = m[2]; return false; }
+      return !/^(title|टाइटल|शीर्षक|duration|length|note|नोट|music|bgm|caption|hashtags?)\s*[:\-–]/i.test(l);
+    }).slice(0,8);
+  const sty = l => [l, extraStyle, style].filter(Boolean).join(", ");
 
   if (mode === "image"){
     if (!lines.length) return toast("कृपया प्रॉम्प्ट लिखें");
@@ -1182,6 +1213,7 @@ $("#puterIn").onclick = async ()=>{ try{ await puter.auth.signIn(); puterCreditO
 $("#puterOut").onclick = ()=>{ try{ puter.auth.signOut(); }catch{} refreshPuterStatus(); toast("Logout हो गया"); };
 
 setMode("text");
+drawGpuBar();
 </script>
 </body>
 </html>
