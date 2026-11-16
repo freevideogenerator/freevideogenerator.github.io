@@ -167,7 +167,7 @@ canvas#work{display:none}
   <div class="sp"></div>
   <a class="iconbtn" href="blog/" style="text-decoration:none;color:inherit">📚<span class="t"> गाइड्स</span></a>
   <span class="pill free">100% Free</span>
-  <span class="pill">🍌 Nano Banana • Veo • Kling • Seedance • LTX-2 • Wan</span>
+  <span class="pill">🍌 Nano Banana • LTX-2 • Ovi • Wan 2.2 • CogVideoX</span>
   <button class="iconbtn" id="setBtn">⚙️<span class="t"> Settings</span></button>
   <button class="iconbtn userbtn" id="userBtn" style="display:none">👤 Login</button>
 </div>
@@ -181,7 +181,7 @@ canvas#work{display:none}
       <div><b>🎨 Image / Character</b>फ्री Z-Image, FLUX, Qwen से प्रॉम्प्ट से इमेज और कैरेक्टर। 🍌 Nano Banana से रेफरेंस फोटो + एडिट।</div>
       <div><b>✍️ Text → Video 🔊</b>प्रॉम्प्ट से वीडियो — AI साउंड इफ़ेक्ट और हिंदी आवाज़ के साथ। "कोट" में लिखा डायलॉग बोला जाएगा।</div>
       <div><b>🧩 Ingredients → Video</b>प्रॉम्प्ट + 3 तक रेफरेंस (कैरेक्टर, जगह, चीज़) → वही चीज़ें वीडियो में।</div>
-      <div><b>🆕 18 वीडियो मॉडल</b>LTX-2 (आवाज़ के साथ), Ovi (बोलता वीडियो), Wan 2.2 Pro, CogVideoX, Stable Video Diffusion — फ्री। Kling, Seedance, Hailuo, Wan 2.7 — Puter क्रेडिट से।</div>
+      <div><b>🆕 16 वीडियो मॉडल</b>LTX-2 और LTX-2.3 (आवाज़ के साथ), Ovi (बोलता वीडियो), Wan 2.2 Pro / Lightning / पहला→आखिरी फ्रेम, CogVideoX, Stable Video Diffusion — सब फ्री।</div>
       <div><b>🎞️ Frames → Video</b>पहला फ्रेम (और चाहें तो आखिरी फ्रेम) दें → बीच का मोशन AI बनाएगा।</div>
     </div>
   </section>
@@ -334,19 +334,16 @@ const MODELS = {
   ltx23: { name: "🆕 LTX-2.3 + आवाज़ (फ्री)", modes: ["text","ingr","frames"], space: "Lightricks/LTX-2-3", audio: true },
   ovi:   { name: "🆕 Ovi – बोलता वीडियो (फ्री)", modes: ["text","ingr","frames"], space: "alexnasa/Ovi", audio: true },
   wan22p:{ name: "🆕 Wan 2.2 Pro (फ्री)", modes: ["text","ingr","frames"], space: "r3gm/wan2-2-fp8da-aoti-preview" },
+  wan22p2:{ name: "🆕 Wan 2.2 Pro 2 (फ्री)", modes: ["text","ingr","frames"], space: "r3gm/wan2-2-fp8da-aoti-preview2" },
+  wanlt: { name: "🆕 Wan 2.2 Lightning (फ्री, तेज़)", modes: ["text","ingr","frames"], space: "Saravutw/WAN2.2_I2V_LIGHTNING_4-8step_custom" },
   wanflf:{ name: "🆕 Wan 2.2 पहला→आखिरी फ्रेम (फ्री)", modes: ["frames"], space: "multimodalart/wan-2-2-first-last-frame" },
   cog5b: { name: "🆕 CogVideoX-5B (फ्री)", modes: ["text","frames"], space: "zai-org/CogVideoX-5B-Space" },
   cog2b: { name: "🆕 CogVideoX-2B (फ्री, सिर्फ टेक्स्ट)", modes: ["text"], space: "zai-org/CogVideoX-2B-Space" },
   svd:   { name: "🆕 Stable Video Diffusion (फ्री)", modes: ["text","ingr","frames"], space: "mediasynthesismuseum/stable-video-diffusion" },
   motion:{ name: "Pollinations + Motion (हमेशा फ्री)", modes: ["text","ingr","frames"] },
-  // ---- नए Puter मॉडल (Puter के free क्रेडिट से) ----
-  seedance:{ name: "🆕 Seedance 2.0 Mini (Puter)", puter: "seedance-2-0-mini", modes: ["text","ingr","frames"], secs: [4,12] },
-  kling: { name: "🆕 Kling 2.5 Turbo (Puter)", puter: "kling-2.5-turbo", modes: ["text","frames"], secs: [5,5] },
-  hailuo:{ name: "🆕 Hailuo 02 (Puter)", puter: "minimax-hailuo-02", modes: ["text","frames"], secs: [6,6] },
-  wan27: { name: "🆕 Wan 2.7 (Puter)", puter: j => j.refs?.length ? "wan-ai/wan2.7-r2v" : j.image ? "wan-ai/wan2.7-i2v" : "wan-ai/wan2.7-t2v", modes: ["text","ingr","frames"], secs: [5,5] },
 };
 // Auto: free models first. Ingredients: Nano Banana composes a start frame, then free video model animates it.
-const AUTO_ORDER = { text: ["ltx","ltx2t","wan22","wan22p","cog5b","wan21","motion"], frames: ["wan22","ltx2t","wan22p","ltx","svd","wan21","motion"], ingr: ["wan22","ltx2t","wan22p","wan21","ltx","motion"] };
+const AUTO_ORDER = { text: ["ltx","ltx2t","wan22","wan22p","cog5b","wan21","motion"], frames: ["wan22","ltx2t","wan22p","wanlt","ltx","svd","wan21","motion"], ingr: ["wan22","ltx2t","wan22p","wanlt","wan21","ltx","motion"] };
 const NEG = "worst quality, blurry, distorted, deformed, low quality, watermark, text, static";
 const LIMITS = { image: 6, ingr: 3 };
 
@@ -398,7 +395,7 @@ async function nanoBanana(modelKey, prompt, images, ratio, st){
 async function puterVideo(modelKey, j, st){
   const M = MODELS[modelKey], [lo, hi] = M.secs || [4, 8];
   const opts = { model: typeof M.puter === "function" ? M.puter(j) : M.puter, seconds: Math.max(lo, Math.min(hi, j.dur)), aspect_ratio: j.ratio === "1:1" ? "9:16" : j.ratio,
-    size: j.ratio === "16:9" ? "1280x720" : "720x1280", generate_audio: modelKey === "veofast" || modelKey === "seedance" };
+    size: j.ratio === "16:9" ? "1280x720" : "720x1280", generate_audio: modelKey === "veofast" };
   if (j.image) opts.input_reference = j.image;
   if (j.last) opts.last_frame = j.last;
   if (j.refs?.length) opts.reference_images = j.refs;
@@ -515,14 +512,17 @@ function noteQuota(msg){
 }
 
 // video engines: j = { prompt, image, last, refs, ratio, dur }
+// r3gm-style Wan 2.2 spaces (same API): first frame + optional last frame
+async function wanFork(k, j, st){
+  const img = await startFrame(j, st);
+  st(`🎬 ${MODELS[k].name.replace(/ \(.*$/, "")} वीडियो बना रहा है…`);
+  return { url: await runSpace(MODELS[k].space, "/generate_video", { input_image: handle_file(img), last_image: j.last ? handle_file(j.last) : null,
+    prompt: j.prompt, negative_prompt: NEG, duration_seconds: Math.min(j.dur, 5), steps: 6, seed: 42, randomize_seed: true }, st) };
+}
 const vdims = (r, base) => r === "9:16" ? { w: Math.round(base*9/16/32)*32, h: base } : r === "1:1" ? { w: Math.round(base*.75/32)*32, h: Math.round(base*.75/32)*32 } : { w: base, h: Math.round(base*9/16/32)*32 };
 const ENGINES = {
   veolite(j, st){ return puterVideo("veolite", j, st); },
   veofast(j, st){ return puterVideo("veofast", j, st); },
-  seedance(j, st){ return puterVideo("seedance", j, st); },
-  kling(j, st){ return puterVideo("kling", j, st); },
-  hailuo(j, st){ return puterVideo("hailuo", j, st); },
-  wan27(j, st){ return puterVideo("wan27", j, st); },
   async ltx2t(j, st){
     const img = await startFrame(j, st), { w, h } = vdims(j.ratio, 768);
     st("🎬 LTX-2 Turbo वीडियो + आवाज़ बना रहा है…");
@@ -547,12 +547,9 @@ const ENGINES = {
     try{ await c.predict("/start_session", {}); }catch{}
     return { url: await runSpace(MODELS.ovi.space, "/generate_scene", { text_prompt: p, sample_steps: 20, image: img ? handle_file(img) : null }, st) };
   },
-  async wan22p(j, st){
-    const img = await startFrame(j, st);
-    st("🎬 Wan 2.2 Pro वीडियो बना रहा है…");
-    return { url: await runSpace(MODELS.wan22p.space, "/generate_video", { input_image: handle_file(img), last_image: j.last ? handle_file(j.last) : null,
-      prompt: j.prompt, negative_prompt: NEG, duration_seconds: Math.min(j.dur, 5), steps: 6, seed: 42, randomize_seed: true }, st) };
-  },
+  wan22p(j, st){ return wanFork("wan22p", j, st); },
+  wan22p2(j, st){ return wanFork("wan22p2", j, st); },
+  wanlt(j, st){ return wanFork("wanlt", j, st); },
   async wanflf(j, st){
     if (!j.image || !j.last) throw new Error("इस मॉडल के लिए पहला और आखिरी दोनों फ्रेम चाहिए");
     st("🎬 Wan 2.2 पहले से आखिरी फ्रेम तक मोशन बना रहा है…");
